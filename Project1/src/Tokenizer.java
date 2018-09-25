@@ -59,10 +59,11 @@ public class Tokenizer
         HashMap<String, Grammer> a4lexcon = new HashMap<>();
 
         // A4 Lexcon declarations 
-        a4lexcon.put("id", new Grammer(2, "id"));
-        a4lexcon.put("int", new Grammer(3, "int"));
-        a4lexcon.put("float", new Grammer(4, "float"));
-        a4lexcon.put("string", new Grammer(5, "string"));
+        a4lexcon.put("^[A-Za-z_][A-Za-z0-9_]*$", new Grammer(2, "id"));
+        a4lexcon.put("^[0-9]*$", new Grammer(3, "int"));
+        a4lexcon.put("^[+-]?([0-9]*[.])?[0-9]+*$", new Grammer(4, "float"));
+        a4lexcon.put("\".*\"", new Grammer(5, "string")); //"\\s\"(.*?)\"\\s"
+        
         // A4 Lexcon Unpaired delimiters
         a4lexcon.put(",", new Grammer(6, "comma"));
         a4lexcon.put(";", new Grammer(7, "semi"));
