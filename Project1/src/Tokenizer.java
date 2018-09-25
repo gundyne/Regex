@@ -27,7 +27,7 @@ public class Tokenizer
     //container for tokens in system
     private ArrayList<Token> bankOftokens;
     //End of line char that is specific  to java 
-    private static final char eol = System.lineSeparator().charAt(0);
+    private static final char eof = System.lineSeparator().charAt(0);
     //HashMap container for A4 Lexcon ID & Definitions
     private static final HashMap<String, Grammer> lexcon = allocGramm2Lexcon();
 
@@ -36,7 +36,7 @@ public class Tokenizer
     //from a file
     public Tokenizer(String fileName) 
     {
-    	bankOftokens = new ArrayList<Token>();
+    	bankOftokens = new ArrayList<>();
         token = "";
         lineCount = 1;
 
@@ -56,67 +56,67 @@ public class Tokenizer
     //A4 Lexicon Rules grammer requirements were provided by prof. Siska
     private static HashMap<String, Grammer> allocGramm2Lexcon()
     {
-        HashMap<String, Grammer> a4lexcon = new HashMap<String, Grammer>();
+        HashMap<String, Grammer> a4lexcon = new HashMap<>();
 
         // A4 Lexcon declarations 
-        lexcon.put("id", new Grammer(2, "id"));
-        lexcon.put("int", new Grammer(3, "int"));
-        lexcon.put("float", new Grammer(4, "float"));
-        lexcon.put("string", new Grammer(5, "string"));
+        a4lexcon.put("id", new Grammer(2, "id"));
+        a4lexcon.put("int", new Grammer(3, "int"));
+        a4lexcon.put("float", new Grammer(4, "float"));
+        a4lexcon.put("string", new Grammer(5, "string"));
         // A4 Lexcon Unpaired delimiters
-        lexcon.put(",", new Grammer(6, "comma"));
-        lexcon.put(";", new Grammer(7, "semi"));
+        a4lexcon.put(",", new Grammer(6, "comma"));
+        a4lexcon.put(";", new Grammer(7, "semi"));
 
         // A4 Lexcon Keywords
-        lexcon.put("prog", new Grammer(10, "kprog"));
-        lexcon.put("main", new Grammer(11, "kmain"));
-        lexcon.put("fcn", new Grammer(12, "kfcn"));
-        lexcon.put("class", new Grammer(13, "kclass"));
-        lexcon.put("float", new Grammer(15, "kfloat"));
-        lexcon.put("int", new Grammer(16, "kint"));
-        lexcon.put("string", new Grammer(17, "kstring"));
-        lexcon.put("if", new Grammer(18, "kif"));
-        lexcon.put("elseif", new Grammer(19, "kelseif"));
-        lexcon.put("else", new Grammer(20, "kelse"));
-        lexcon.put("while", new Grammer(21, "kwhile"));
-        lexcon.put("input", new Grammer(22, "kinput"));
-        lexcon.put("print", new Grammer(23, "kprint"));
-        lexcon.put("new", new Grammer(24, "knew"));
-        lexcon.put("return", new Grammer(25, "kreturn"));
-        lexcon.put("var", new Grammer(25, "kvar"));
+        a4lexcon.put("prog", new Grammer(10, "kprog"));
+        a4lexcon.put("main", new Grammer(11, "kmain"));
+        a4lexcon.put("fcn", new Grammer(12, "kfcn"));
+        a4lexcon.put("class", new Grammer(13, "kclass"));
+        a4lexcon.put("float", new Grammer(15, "kfloat"));
+        a4lexcon.put("int", new Grammer(16, "kint"));
+        a4lexcon.put("string", new Grammer(17, "kstring"));
+        a4lexcon.put("if", new Grammer(18, "kif"));
+        a4lexcon.put("elseif", new Grammer(19, "kelseif"));
+        a4lexcon.put("else", new Grammer(20, "kelse"));
+        a4lexcon.put("while", new Grammer(21, "kwhile"));
+        a4lexcon.put("input", new Grammer(22, "kinput"));
+        a4lexcon.put("print", new Grammer(23, "kprint"));
+        a4lexcon.put("new", new Grammer(24, "knew"));
+        a4lexcon.put("return", new Grammer(25, "kreturn"));
+        a4lexcon.put("var", new Grammer(25, "kvar"));
 
         // A4 Lexcon paired delimiters
-        lexcon.put("<", new Grammer(31, "angle1"));
-        lexcon.put(">", new Grammer(32, "angle2"));
-        lexcon.put("{", new Grammer(33, "brace1"));
-        lexcon.put("}", new Grammer(34, "brace2"));
-        lexcon.put("[", new Grammer(35, "bracket1"));
-        lexcon.put("]", new Grammer(36, "bracket2"));
-        lexcon.put("(", new Grammer(37, "parens1"));
-        lexcon.put(")", new Grammer(38, "parens2"));
+        a4lexcon.put("<", new Grammer(31, "angle1"));
+        a4lexcon.put(">", new Grammer(32, "angle2"));
+        a4lexcon.put("{", new Grammer(33, "brace1"));
+        a4lexcon.put("}", new Grammer(34, "brace2"));
+        a4lexcon.put("[", new Grammer(35, "bracket1"));
+        a4lexcon.put("]", new Grammer(36, "bracket2"));
+        a4lexcon.put("(", new Grammer(37, "parens1"));
+        a4lexcon.put(")", new Grammer(38, "parens2"));
 
         // A4 Lexcon other punctuation tokens 
-        lexcon.put("*", new Grammer(41, "aster"));
-        lexcon.put("^", new Grammer(42, "caret"));
-        lexcon.put(":", new Grammer(43, "colon"));
-        lexcon.put(".", new Grammer(44, "dot"));
-        lexcon.put("=", new Grammer(45, "equal"));
-        lexcon.put("-", new Grammer(46, "minus"));
-        lexcon.put("+", new Grammer(47, "plus"));
-        lexcon.put("/", new Grammer(48, "slash"));
+        a4lexcon.put("*", new Grammer(41, "aster"));
+        a4lexcon.put("^", new Grammer(42, "caret"));
+        a4lexcon.put(":", new Grammer(43, "colon"));
+        a4lexcon.put(".", new Grammer(44, "dot"));
+        a4lexcon.put("=", new Grammer(45, "equal"));
+        a4lexcon.put("-", new Grammer(46, "minus"));
+        a4lexcon.put("+", new Grammer(47, "plus"));
+        a4lexcon.put("/", new Grammer(48, "slash"));
 
         // A4 Lexcon multi-char operators
-        lexcon.put("->", new Grammer(51, "oparrow"));
-        lexcon.put("==", new Grammer(52, "opeq"));
-        lexcon.put("!=", new Grammer(53, "opne"));
-        lexcon.put("<=", new Grammer(54, "ople"));
-        lexcon.put(">=", new Grammer(55, "opge"));
-        lexcon.put("<<", new Grammer(56, "opshl"));
-        lexcon.put(">>", new Grammer(57, "opshr"));
+        a4lexcon.put("->", new Grammer(51, "oparrow"));
+        a4lexcon.put("==", new Grammer(52, "opeq"));
+        a4lexcon.put("!=", new Grammer(53, "opne"));
+        a4lexcon.put("<=", new Grammer(54, "ople"));
+        a4lexcon.put(">=", new Grammer(55, "opge"));
+        a4lexcon.put("<<", new Grammer(56, "opshl"));
+        a4lexcon.put(">>", new Grammer(57, "opshr"));
 
         //A4 Lexcon Misc
-        lexcon.put("", new Grammer(99, "error")); // error
-        lexcon.put(" ", new Grammer(0, "eol")); // end of line input
+        a4lexcon.put("", new Grammer(99, "error")); // error
+        a4lexcon.put(" ", new Grammer(0, "eof")); // end of file input
 
         return a4lexcon;
     }//Ending allocGramm2Lexcon Funtion
