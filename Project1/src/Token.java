@@ -11,7 +11,7 @@ public class Token
 	 //Value associated with token in A4 Lexicon
     private String value;
     //Grammar which holds ID & keyword 
-    private Grammer grammer;
+    private Grammar grammar;
     // line # where the token is located
     private int lineNumber;
    
@@ -19,7 +19,7 @@ public class Token
     {
         this.lineNumber = lineNum;
         this.value = value;
-        this.grammer = new Grammer(0, "");
+        this.grammar = new Grammar(0, "");
     }//Ending Token Overloaded Constructor
 
     @Override
@@ -27,28 +27,28 @@ public class Token
     {
         String valueGenerated = getValue();
         String numberGenerated = "";
-        if (grammer.getId() == 3 || grammer.getId() == 4)
-        	numberGenerated = " " + grammer.getKeyword() + "= " + valueGenerated;
-        else if (grammer.getKeyword().equals("string"))
+        if (grammar.getId() == 3 || grammar.getId() == 4)
+        	numberGenerated = " " + grammar.getKeyword() + "= " + valueGenerated;
+        else if (grammar.getKeyword().equals("string"))
             valueGenerated = value.substring(1, value.length() - 1); // chop off the quotes
         //ending if else statement
-        return String.format("(Tok:%3d line=%3d str= \"%s\"%s)", grammer.getId(), lineNumber, valueGenerated, numberGenerated);
+        return String.format("(Tok:%3d line=%3d str= \"%s\"%s)", grammar.getId(), lineNumber, valueGenerated, numberGenerated);
     }//Ending toString method 
     //Setters and Getters for Instance Variables
-    public Grammer getGrammer() 
+    public Grammar getGrammar() 
     {
-        return grammer;
-    }//Ending GetGrammer Function
+        return grammar;
+    }//Ending GetGrammr Function
 
-    public void setGrammer(Grammer grammer) 
+    public void setGrammar(Grammar grammar) 
     {
-        this.grammer = grammer;
-    }//Ending setGrammer method
+        this.grammar = grammar;
+    }//Ending setGrammar method
 
     public String getValue() 
     {
         return value;
-    }//Ending getGrammer method
+    }//Ending getGrammar method
 
     public void setValue(String value) 
     {
