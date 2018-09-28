@@ -14,7 +14,8 @@ public class Grammar
     private String keyword;
 
     public Grammar() {
-    	
+    	this.id = 0;
+        this.keyword = "";
     }
     
     public Grammar(int id, String keyword)
