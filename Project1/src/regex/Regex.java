@@ -1,12 +1,16 @@
 package regex;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-import java.io.Reader;
 /**
  *
  * @author Dat
@@ -19,41 +23,17 @@ public class Regex {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String fileName = "D:\\Download\\Temp\\A4-sample-1.acod";
-        Tokenizer tokTest = new Tokenizer(fileName);
-        tokTest.printTokens();
-    }
-    
-    public static void lineBreak(String text)
-    {
-        String[] lines = text.split("\n");
-        for(int i = 0; i < lines.length; i++)
-            lineRead(lines[i],i+1);
-    }
-    
-    public static void lineRead(String line, int lineNumber)
-    {
-        String scannedWord = "";
+        Tokenizer tokTest = new Tokenizer(args[0]);
+        String fileLocation = args[0].substring(0, args[0].lastIndexOf("\\")+1);
+        ArrayList<Token> tokenList = tokTest.printTokens();
+        try {
+            try (Writer fileWriter = new FileWriter(new File(fileLocation+"output.txt"),false)) {
+                for(Token t: tokenList)
+                    fileWriter.write(t.toString()+'\n');
+            }
+        } catch (IOException ex) {
+            System.err.println("IOException has occured");
+        }
         
-    }
-    
-    public static int keywordCheck(String word)
-    {
-        String[] keywords = {"prog","main","fcn","class","float","int","string","if","elseif","else","while","input","print","new","return","var"};
-        int[] tokenNum = {10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26};
-        for(int k=0;k<16;k++)
-            if(word.equals(keywords[k]))
-                return tokenNum[k];
-        return 0;
-    }
-    
-    public static int delimCheck(char scannedChar)
-    {
-        char[] delim = {',',';','<','>','{','}','[',']','(',')'};
-        int[] tokenNum = {6,7,31,32,33,34,35,36,37,38};
-        for(int d=0; d<10; d++)
-            if(scannedChar == delim[d])
-                return tokenNum[d];
-        return 0;
     }
 }
