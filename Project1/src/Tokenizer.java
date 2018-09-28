@@ -135,7 +135,7 @@ public class Tokenizer
                 while ((line = file.readLine()) != null) 
                 {
                     String[] words = line.split("\\s+");
-                    Grammar curGrammer = new Grammar();
+                    Grammar curGrammar = new Grammar();
                     for (int i = 0; i < words.length; i++) 
                     {
                         Token curToken = new Token(lineCount, "");
@@ -182,46 +182,46 @@ public class Tokenizer
                                 }                               
                             }
                             
-                            curGrammer.setId(5);
-                            curGrammer.setKeyword("string");
+                            curGrammar.setId(5);
+                            curGrammar.setKeyword("string");
                         }
                         
                         // If id
                         else if(isId(value))
                         {
-                            curGrammer.setId(2);
-                            curGrammer.setKeyword("id");
+                        	curGrammar.setId(2);
+                        	curGrammar.setKeyword("id");
                         }
                         // If int number
                         else if(isInt(value))
                         {
-                            curGrammer.setId(3);
-                            curGrammer.setKeyword("int");
+                        	curGrammar.setId(3);
+                        	curGrammar.setKeyword("int");
                             //curToken.setValue(value);
                         }
                         
                         // If float number
                         else if(isFloat(value))
                         {
-                            curGrammer.setId(4);
-                            curGrammer.setKeyword("float");
+                        	curGrammar.setId(4);
+                        	curGrammar.setKeyword("float");
                             //curToken.setValue(value);
                         }
                         
                         // otherwise
                         else
                         {
-                            curGrammer = (Grammar)lexcon.get(value);
-                            if(curGrammer == null) // Not found in lexicon
+                        	curGrammar = (Grammar)lexcon.get(value);
+                            if(curGrammar == null) // Not found in lexicon
                             {
                                 value = "";
-                                curGrammer = new Grammar(99, "error");
+                                curGrammar = new Grammar(99, "error");
                             }
                         }
                      
                        // Add to bankOftokens
                        curToken.setValue(value);                         
-                       curToken.setGrammer(curGrammer);
+                       curToken.setGrammar(curGrammar);
                        bankOftokens.add(curToken);                     
                     }
                        

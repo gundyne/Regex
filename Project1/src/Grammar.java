@@ -13,6 +13,10 @@ public class Grammar
     //A4 Keyword
     private String keyword;
 
+    public Grammar() {
+    	
+    }
+    
     public Grammar(int id, String keyword)
     {
         this.id = id;
