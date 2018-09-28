@@ -25,14 +25,18 @@ public class Tokenizer
     private Buffer file;
     //Int counter for  lines 
     private int lineCount;
-    //container for tokens in system
+    //Container for tokens in system
     private ArrayList<Token> bankOftokens;
     //End of line char that is specific  to java 
     private static final char eof = System.lineSeparator().charAt(0);
     //HashMap container for A4 Lexcon ID & Definitions
     private static final HashMap<String, Grammar> lexcon = allocGramm2Lexcon();
 
-    // Author: Long
+    /*  Author: Long 
+    *   Add functions to check data type of tokens
+    */
+    
+    // Check if a string contents '//'
     private static boolean isComment(String s)
     {
         if(s.length() >= 2 && s.charAt(0) == 47 && s.charAt(1) == 47)
@@ -40,15 +44,15 @@ public class Tokenizer
         return false;
     }
     
+    // Check if a char is a LU
     private static boolean isLU(char c)
     {
         if((c == 95) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-            return true;
-        //if(c == "\\w")
-        
+            return true;   
         return false;
     }
     
+    // Check if a char is a LUD
     private static boolean isLUD(char c)
     {
         if(isLU(c) || (c >= 48 && c <= 57))
@@ -56,6 +60,7 @@ public class Tokenizer
         return false;
     }
     
+    // Check if a  string is an ID
     private static boolean isId(String s)
     {
         if(isLU(s.charAt(0))){
@@ -68,6 +73,7 @@ public class Tokenizer
         return false;
     }
     
+    // Check if a char is a sign
     private static boolean isSign(char c)
     {
         if (c == '+' || c == '-')
@@ -75,30 +81,31 @@ public class Tokenizer
         return false;
     }
     
+    // Check if a string containts only digits
     private static boolean isDigits(String s)
     {
         for(int i = 0; i < s.length(); i++) {
             if(s.charAt(i) < 48 || s.charAt(i) > 57)
                 return false;
         }
-        //if(s == "\\d+")
-        //    return true;
-        
         return true;
     }
     
+    // Check if a string is valid integer 
     private static boolean isInt(String s)
     {
         if(s.length() >= 2 && isSign(s.charAt(0))) {
             if(isDigits(s.substring(1)))
                 return true;
-        } else if(isDigits(s))
+        } 
+        else if(isDigits(s))
             return true;
         
         return false;
         
     }
     
+    // Check if a string is valid float
     private static boolean isFloat(String s)
     {
        int dotPos;
@@ -112,7 +119,6 @@ public class Tokenizer
        
        return false;
     }
-    // End of edited by Long
   
     // Overloaded string(filename) constructor to create a tokenizer to read input 
     //from a file
@@ -129,25 +135,29 @@ public class Tokenizer
         {
             file = new Buffer(new FileReader(new File(fileName)));
             
-            // Edited by Long  
+            // Edited by Long : Check DFA 
             String line;
+            
             try
             {
+                // Read each line
                 while ((line = file.readLine()) != null) 
                 {
                     // Update line count
                     lineCount++;
-                    String[] words = line.split("\\s+");
-                   
                     
+                    // Store all words in a line
+                    String[] words = line.split("\\s+");
+                
+                    // Check each word
                     for (int i = 0; i < words.length; i++) 
                     {
                         Grammar curGrammar = new Grammar();
                         Token curToken = new Token(lineCount, "");
                         String value = words[i];
+                        
                         if(!value.isEmpty())
                         {
-                            // If EOL, EOF
 
                             // If comment, ignore the rest of the words in comment, go to next line
                             if(isComment(value))
@@ -163,7 +173,7 @@ public class Tokenizer
                                     i++;
                                     if(i >= words.length) // Error: Not found 2nd '"'
                                     {
-
+                                        // Suppose input file is always correctly format
                                     }
                                     else
                                     {
@@ -174,7 +184,7 @@ public class Tokenizer
                                             int idx = nextWord.indexOf("\"");
                                             value += " " + nextWord.substring(0, idx);
 
-                                            // May have character after 2nd '"'
+                                            // May have character after 2nd '"'. Ex; "here is example",
                                             if(idx != nextWord.length() - 1)
                                             {
                                                 words[i] = nextWord.substring(idx + 1, nextWord.length() - 1);
@@ -199,8 +209,7 @@ public class Tokenizer
                             else if(isInt(value))
                             {
                                     curGrammar.setId(3);
-                                    curGrammar.setKeyword("int");
-                                //curToken.setValue(value);
+                                    curGrammar.setKeyword("int");                             
                             }
 
                             // If float number
@@ -208,7 +217,6 @@ public class Tokenizer
                             {
                                     curGrammar.setId(4);
                                     curGrammar.setKeyword("float");
-                                //curToken.setValue(value);
                             }
 
                             // otherwise
@@ -226,7 +234,6 @@ public class Tokenizer
                                    }
                                     else
                                     {
-                                    //value = "";
                                     curGrammar = new Grammar(99, "error");
                                     }
                                 }
