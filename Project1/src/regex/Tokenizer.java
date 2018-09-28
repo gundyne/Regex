@@ -31,10 +31,6 @@ public class Tokenizer
     private static final char eof = System.lineSeparator().charAt(0);
     //HashMap container for A4 Lexcon ID & Definitions
     private static final HashMap<String, Grammar> lexcon = allocGramm2Lexcon();
-
-    /*  Author: Long 
-    *   Add functions to check data type of tokens
-    */
     
     // Check if a string contents '//'
     private static boolean isComment(String s)
@@ -127,15 +123,12 @@ public class Tokenizer
     	bankOftokens = new ArrayList<>();
         token = "";
         lineCount = 0;
-
-        // 
         
         // Read input file
         try 
         {
             file = new Buffer(new FileReader(new File(fileName)));
-            
-            // Edited by Long : Check DFA 
+                     
             String line;
             
             try
@@ -203,7 +196,6 @@ public class Tokenizer
                                 curGrammar.setId(5);
                                 curGrammar.setKeyword("string");
                             }
-
 
                             // If int number
                             else if(isInt(value))
