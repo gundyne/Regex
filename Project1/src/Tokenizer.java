@@ -1,5 +1,4 @@
 package Project1.src;
-
 //Andre Barajas
 //CS 444 
 //Fall 2018
@@ -33,7 +32,87 @@ public class Tokenizer
     //HashMap container for A4 Lexcon ID & Definitions
     private static final HashMap<String, Grammar> lexcon = allocGramm2Lexcon();
 
+    // Author: Long
+    private static boolean isComment(String s)
+    {
+        if(s.charAt(0) == 47 && s.charAt(1) == 47)
+            return true;
+        return false;
+    }
+    private static boolean isLU(char c)
+    {
+        if((c == 95) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+            return true;
+        //if(c == "\\w")
+        
+        return false;
+    }
     
+    private static boolean isLUD(char c)
+    {
+        if(isLU(c) || (c >= 48 && c <= 57))
+            return true;
+        return false;
+    }
+    
+    private static boolean isId(String s)
+    {
+        if(isLU(s.charAt(0))){
+            for(int i = 1; i < s.length(); i++){
+                if(!isLUD(s.charAt(i)))
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    private static boolean isSign(char c)
+    {
+        if (c == '+' || c == '-')
+            return true;
+        return false;
+    }
+    
+    private static boolean isDigits(String s)
+    {
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) < 48 || s.charAt(i) > 57)
+                return false;
+        }
+        //if(s == "\\d+")
+        //    return true;
+        
+        return true;
+    }
+    
+    private static boolean isInt(String s)
+    {
+        if(isSign(s.charAt(0))) {
+            if(isDigits(s.substring(1)))
+                return true;
+        } else if(isDigits(s))
+            return true;
+        
+        return false;
+        
+    }
+    
+    private static boolean isFloat(String s)
+    {
+       int dotPos;
+       dotPos = s.indexOf(".");
+       if(dotPos == -1) {
+           if(isInt(s))
+               return true;
+       }
+       else if(isInt(s.substring(0, dotPos - 1)) && (isInt(s.substring(dotPos + 1))))
+           return true;
+       
+       return false;
+    }
+    // End of edited by Long
+  
     // Overloaded string(filename) constructor to create a tokenizer to read input 
     //from a file
     public Tokenizer(String fileName) 
@@ -42,9 +121,119 @@ public class Tokenizer
         token = "";
         lineCount = 1;
 
+        // 
+        
+        // Read input file
         try 
         {
             file = new Buffer(new FileReader(fileName));
+            
+            // Edited by Long  
+            String line;
+            try
+            {
+                while ((line = file.readLine()) != null) 
+                {
+                    String[] words = line.split("\\s+");
+                    Grammar curGrammer = new Grammar();
+                    for (int i = 0; i < words.length; i++) 
+                    {
+                        Token curToken = new Token(lineCount, "");
+                        String value = words[i];
+                        
+                        // If EOL, EOF
+                        
+                        // If comment, ignore the rest of the words in comment, go to next line
+                        if(isComment(value))
+                            break;
+                        
+                        // If String, find 1st '"' char
+                        if(value.charAt(0) == 34)
+                        {
+                            // Looking for 2nd '"' char
+                            boolean found = false;
+                            while(!found)
+                            {        
+                                i++;
+                                if(i >= words.length) // Error: Not found 2nd '"'
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    String nextWord = words[i];
+                                    
+                                    if(nextWord.contains("\""))
+                                    {
+                                        int idx = nextWord.indexOf("\"");
+                                        value += " " + nextWord.substring(0, idx);
+
+                                        // May have character after 2nd '"'
+                                        if(idx != nextWord.length() - 1)
+                                           words[i] = nextWord.substring(idx + 1, nextWord.length() - 1);
+
+                                        i--;
+                                        found = true;
+                                    }
+                                    else
+                                    {
+                                        value += " " + nextWord;
+                                    }
+                                }                               
+                            }
+                            
+                            curGrammer.setId(5);
+                            curGrammer.setKeyword("string");
+                        }
+                        
+                        // If id
+                        else if(isId(value))
+                        {
+                            curGrammer.setId(2);
+                            curGrammer.setKeyword("id");
+                        }
+                        // If int number
+                        else if(isInt(value))
+                        {
+                            curGrammer.setId(3);
+                            curGrammer.setKeyword("int");
+                            //curToken.setValue(value);
+                        }
+                        
+                        // If float number
+                        else if(isFloat(value))
+                        {
+                            curGrammer.setId(4);
+                            curGrammer.setKeyword("float");
+                            //curToken.setValue(value);
+                        }
+                        
+                        // otherwise
+                        else
+                        {
+                            curGrammer = (Grammar)lexcon.get(value);
+                            if(curGrammer == null) // Not found in lexicon
+                            {
+                                value = "";
+                                curGrammer = new Grammar(99, "error");
+                            }
+                        }
+                     
+                       // Add to bankOftokens
+                       curToken.setValue(value);                         
+                       curToken.setGrammer(curGrammer);
+                       bankOftokens.add(curToken);                     
+                    }
+                       
+                    // Update line number
+                    lineCount++;
+                }
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+
         } catch (FileNotFoundException e) 
         {
             System.out.println("Error: File Not Found.");
@@ -53,7 +242,15 @@ public class Tokenizer
             currentToken.setGrammar(new Grammar(99, "error")); //reporting unknown token to A4 Lexcon
             bankOftokens.add(currentToken);
         }//Ending try catch statement 
+        
+        
+        // Read each line until eof
+        
+        // If see '//' , read nextLine  
+        // else if see       
     }//Ending Tokenzier overloaded constructor
+
+    
 //Function to allocate grammer rules with respective id's into a hashmap container
     //A4 Lexicon Rules grammer requirements were provided by prof. Siska
     private static HashMap<String, Grammar> allocGramm2Lexcon()
