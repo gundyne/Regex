@@ -239,6 +239,7 @@ public class Tokenizer
                     }                
                 }
                 bankOftokens.add(new Token(lineCount, "", new Grammar(0, "eof")));
+		file.close();
             }
             catch(IOException e)
             {
