@@ -1,4 +1,4 @@
-package Project1.src;
+package regex;
 
 //Andre Barajas
 //CS 444 
@@ -22,6 +22,12 @@ public class Token
         this.grammar = new Grammar(0, "");
     }//Ending Token Overloaded Constructor
 
+    public Token(int lineNum, String value, Grammar grammar) 
+    {
+        this.lineNumber = lineNum;
+        this.value = value;
+        this.grammar = grammar;
+    }//En
     @Override
     public String toString() 
     {

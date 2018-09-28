@@ -1,4 +1,4 @@
-package Project1.src;
+package regex;
 
 //Andre Barajas
 //CS 444 

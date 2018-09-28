@@ -1,4 +1,4 @@
-package Project1.src.regex;
+package regex;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,6 +19,9 @@ public class Regex {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        String fileName = "D:\\Download\\Temp\\A4-sample-1.acod";
+        Tokenizer tokTest = new Tokenizer(fileName);
+        tokTest.printTokens();
     }
     
     public static void lineBreak(String text)

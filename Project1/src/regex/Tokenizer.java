@@ -1,4 +1,4 @@
-package Project1.src;
+package regex;
 //Andre Barajas
 //CS 444 
 //Fall 2018
@@ -8,12 +8,12 @@ package Project1.src;
 //I.e the class may read a file that has characters and creates tokens for end user
 
 //Importing Libraries needed. 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Pattern;
 
 
 public class Tokenizer 
@@ -35,10 +35,11 @@ public class Tokenizer
     // Author: Long
     private static boolean isComment(String s)
     {
-        if(s.charAt(0) == 47 && s.charAt(1) == 47)
+        if(s.length() >= 2 && s.charAt(0) == 47 && s.charAt(1) == 47)
             return true;
         return false;
     }
+    
     private static boolean isLU(char c)
     {
         if((c == 95) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
@@ -88,7 +89,7 @@ public class Tokenizer
     
     private static boolean isInt(String s)
     {
-        if(isSign(s.charAt(0))) {
+        if(s.length() >= 2 && isSign(s.charAt(0))) {
             if(isDigits(s.substring(1)))
                 return true;
         } else if(isDigits(s))
@@ -119,14 +120,14 @@ public class Tokenizer
     {
     	bankOftokens = new ArrayList<>();
         token = "";
-        lineCount = 1;
+        lineCount = 0;
 
         // 
         
         // Read input file
         try 
         {
-            file = new Buffer(new FileReader(fileName));
+            file = new Buffer(new FileReader(new File(fileName)));
             
             // Edited by Long  
             String line;
@@ -134,100 +135,111 @@ public class Tokenizer
             {
                 while ((line = file.readLine()) != null) 
                 {
+                    // Update line count
+                    lineCount++;
                     String[] words = line.split("\\s+");
-                    Grammar curGrammar = new Grammar();
+                   
+                    
                     for (int i = 0; i < words.length; i++) 
                     {
+                        Grammar curGrammar = new Grammar();
                         Token curToken = new Token(lineCount, "");
                         String value = words[i];
-                        
-                        // If EOL, EOF
-                        
-                        // If comment, ignore the rest of the words in comment, go to next line
-                        if(isComment(value))
-                            break;
-                        
-                        // If String, find 1st '"' char
-                        if(value.charAt(0) == 34)
+                        if(!value.isEmpty())
                         {
-                            // Looking for 2nd '"' char
-                            boolean found = false;
-                            while(!found)
-                            {        
-                                i++;
-                                if(i >= words.length) // Error: Not found 2nd '"'
-                                {
-                                    
-                                }
-                                else
-                                {
-                                    String nextWord = words[i];
-                                    
-                                    if(nextWord.contains("\""))
+                            // If EOL, EOF
+
+                            // If comment, ignore the rest of the words in comment, go to next line
+                            if(isComment(value))
+                                break;
+
+                            // If String, find 1st '"' char
+                            if(value.charAt(0) == 34)
+                            {
+                                // Looking for 2nd '"' char
+                                boolean found = false;
+                                while(!found)
+                                {        
+                                    i++;
+                                    if(i >= words.length) // Error: Not found 2nd '"'
                                     {
-                                        int idx = nextWord.indexOf("\"");
-                                        value += " " + nextWord.substring(0, idx);
 
-                                        // May have character after 2nd '"'
-                                        if(idx != nextWord.length() - 1)
-                                           words[i] = nextWord.substring(idx + 1, nextWord.length() - 1);
-
-                                        i--;
-                                        found = true;
                                     }
                                     else
                                     {
-                                        value += " " + nextWord;
-                                    }
-                                }                               
+                                        String nextWord = words[i];
+
+                                        if(nextWord.contains("\""))
+                                        {
+                                            int idx = nextWord.indexOf("\"");
+                                            value += " " + nextWord.substring(0, idx);
+
+                                            // May have character after 2nd '"'
+                                            if(idx != nextWord.length() - 1)
+                                            {
+                                                words[i] = nextWord.substring(idx + 1, nextWord.length() - 1);
+                                                 i--;
+                                            }
+                                                 
+                                            found = true;
+                                        }
+                                        else
+                                        {
+                                            value += " " + nextWord;
+                                        }
+                                    }                               
+                                }
+
+                                curGrammar.setId(5);
+                                curGrammar.setKeyword("string");
                             }
-                            
-                            curGrammar.setId(5);
-                            curGrammar.setKeyword("string");
-                        }
-                        
-                        // If id
-                        else if(isId(value))
-                        {
-                        	curGrammar.setId(2);
-                        	curGrammar.setKeyword("id");
-                        }
-                        // If int number
-                        else if(isInt(value))
-                        {
-                        	curGrammar.setId(3);
-                        	curGrammar.setKeyword("int");
-                            //curToken.setValue(value);
-                        }
-                        
-                        // If float number
-                        else if(isFloat(value))
-                        {
-                        	curGrammar.setId(4);
-                        	curGrammar.setKeyword("float");
-                            //curToken.setValue(value);
-                        }
-                        
-                        // otherwise
-                        else
-                        {
-                        	curGrammar = (Grammar)lexcon.get(value);
-                            if(curGrammar == null) // Not found in lexicon
+
+
+                            // If int number
+                            else if(isInt(value))
                             {
-                                value = "";
-                                curGrammar = new Grammar(99, "error");
+                                    curGrammar.setId(3);
+                                    curGrammar.setKeyword("int");
+                                //curToken.setValue(value);
                             }
-                        }
-                     
-                       // Add to bankOftokens
-                       curToken.setValue(value);                         
-                       curToken.setGrammar(curGrammar);
-                       bankOftokens.add(curToken);                     
-                    }
-                       
-                    // Update line number
-                    lineCount++;
+
+                            // If float number
+                            else if(isFloat(value))
+                            {
+                                    curGrammar.setId(4);
+                                    curGrammar.setKeyword("float");
+                                //curToken.setValue(value);
+                            }
+
+                            // otherwise
+                            else
+                            {
+                                curGrammar = (Grammar)lexcon.get(value);
+                                if(curGrammar == null) // Not found in lexicon
+                                {
+                                    // If id
+                                    if(isId(value))
+                                   {
+                                        curGrammar = new Grammar();
+                                        curGrammar.setId(2);
+                                        curGrammar.setKeyword("id");
+                                   }
+                                    else
+                                    {
+                                    //value = "";
+                                    curGrammar = new Grammar(99, "error");
+                                    }
+                                }
+                            }
+
+                           // Add to bankOftokens
+                           curToken.setValue(value);                         
+                           curToken.setGrammar(curGrammar);
+                           bankOftokens.add(curToken);  
+                        }                                         
+                    }                
                 }
+                bankOftokens.add(new Token(lineCount, "", new Grammar(0, "eof")));
             }
             catch(IOException e)
             {
@@ -242,15 +254,15 @@ public class Tokenizer
             currentToken.setGrammar(new Grammar(99, "error")); //reporting unknown token to A4 Lexcon
             bankOftokens.add(currentToken);
         }//Ending try catch statement 
-        
-        
-        // Read each line until eof
-        
-        // If see '//' , read nextLine  
-        // else if see       
+      
     }//Ending Tokenzier overloaded constructor
 
-    
+     public void printTokens()
+    {
+        for(Token tok: bankOftokens)
+            System.out.println(tok);
+    }
+     
 //Function to allocate grammer rules with respective id's into a hashmap container
     //A4 Lexicon Rules grammer requirements were provided by prof. Siska
     private static HashMap<String, Grammar> allocGramm2Lexcon()
