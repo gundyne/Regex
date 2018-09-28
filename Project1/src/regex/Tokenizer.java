@@ -256,10 +256,9 @@ public class Tokenizer
       
     }//Ending Tokenzier overloaded constructor
 
-     public void printTokens()
+     public ArrayList<Token> printTokens()
     {
-        for(Token tok: bankOftokens)
-            System.out.println(tok);
+        return bankOftokens;
     }
      
 //Function to allocate grammer rules with respective id's into a hashmap container
