@@ -1,4 +1,4 @@
-package regex;
+package lexer;
 //Andre Barajas
 //CS 444 
 //Fall 2018

@@ -1,4 +1,4 @@
-package regex;
+package lexer;
 
 import java.io.File;
 import java.io.FileWriter;
