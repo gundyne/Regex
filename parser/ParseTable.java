@@ -35,7 +35,7 @@ public class ParseTable
         int rId = tMapper.get(frontOfMap);
 
         // SYSOUT
-        System.out.println(Integer.toString(lId)+" "+Integer.toString(rId));
+        System.out.println("LHS_ID: "+Integer.toString(lId)+" / RHS_ID: "+Integer.toString(rId));
         
         if (lId == -1 || rId == -1) 
         {
@@ -386,7 +386,9 @@ public class ParseTable
         
         // Fact
         table[57][15] = 94; // id
-//        table[57][11] = 93; // ??????
+        table[57][9] = 93; // int - added
+        table[57][10] = 93; // float - added
+        table[57][11] = 93; // string - added
         table[57][18] = 94; // aster
         table[57][29] = 95; // ampersand
         table[57][5] = 96; // parens1

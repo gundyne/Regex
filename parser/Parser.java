@@ -42,28 +42,34 @@ public class Parser
             String currentStackTop = inputStack.peek().getKeyword();
             String currentInputFront = tokens.get(0).getGrammar().getKeyword();
 
-            System.out.println("currentStackTop: "+currentStackTop);
-            System.out.println("currentInputFront: "+currentInputFront);
+            System.out.println("-----------------------------");
+            System.out.println("Stack top: "+currentStackTop);
+            System.out.println("Stream front: "+currentInputFront);
+            
             
             if (currentStackTop.equals(currentInputFront) || currentStackTop.equals("$")) 
             {
-            	System.out.println("m1");
+            	System.out.println("\n<inside m1 condition>");
                 m1();
             } else if (m2(currentStackTop)) 
             {
-            	System.out.println("m2");
+            	System.out.println("\n<inside m2 condition>");
                 error("M2");
             } else 
             {
                 Rule currentRule = table.get(currentStackTop, currentInputFront);
+                
+                if (currentRule != null)
+                	System.out.println("Rule ID: "+currentRule.getId());
+                
                 if (m3(currentRule)) 
                 {
-                	System.out.println("m3");
+                	System.out.println("\n<inside m3 condition>");
                 	//break;
                     error("M3");
                 } else 
                 {
-                	System.out.println("m4");
+                	System.out.println("\n<inside m4 condition>");
                     m4(currentRule);
                 } //Ending nested if else condition statement
             } // Ending nested if else condition statement
@@ -130,11 +136,11 @@ public class Parser
             Node parent = inputStack.pop();
 
             // SYSOUT
-            System.out.println("lhs:"+currentRule.getLhs()+" rhs:"+currentRule.getRhs());
+            System.out.println("LHS: "+currentRule.getLhs()+" RHS: "+currentRule.getRhs());
             String[] reversed = currentRule.getReversedRhsArray();
             for (String keyword : reversed) 
             {
-            	System.out.println("k: "+keyword);
+            	System.out.println("kw: "+keyword);
                 Node child = new Node(keyword);
                 parent.addChild(child);
                 inputStack.push(child);

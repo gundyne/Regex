@@ -75,7 +75,7 @@ public class RuleList
         rules[24] = new Rule(25, "Varid", "id Varid_tail");
         
         rules[25] = new Rule(26, "Varid_tail", "bracket1 Varid_item bracket2");
-        rules[26] = new Rule(27, "Varid_tail", "PPexpr");
+        rules[26] = new Rule(27, "Varid_tail", "PPexprs");
         rules[27] = new Rule(28, "Varid_tail", "eps");
         
         rules[28] = new Rule(29, "Varid_item", "Expr");

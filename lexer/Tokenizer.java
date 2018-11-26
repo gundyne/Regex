@@ -133,6 +133,8 @@ public class Tokenizer
             
             try
             {
+            	System.out.println("Printing tokens...\n");
+            	
                 // Read each line
                 while ((line = file.readLine()) != null) 
                 {
@@ -244,7 +246,7 @@ public class Tokenizer
 	                           curToken.setValue(value);                         
 	                           curToken.setGrammar(curGrammar);
 	                           bankOftokens.add(curToken);  
-	                           System.out.println("value: "+value+"\t\tgrammar: "+curGrammar.getKeyword());
+	                           System.out.println(curToken.toString());
                            } else if (value.substring(value.length()-1).equals("(")) {
                         	   String val1 = value.substring(0, value.length()-1);
                         	   String val2 = value.substring(value.length()-1);
@@ -266,43 +268,45 @@ public class Tokenizer
                                    }
                                }
                                
-                               System.out.println("value: "+val1+"\t\tgrammar: "+firGrammar.getKeyword());
                                curToken.setValue(val1);                         
 	                           curToken.setGrammar(firGrammar);
-	                           bankOftokens.add(curToken);  
+	                           bankOftokens.add(curToken); 
+	                           System.out.println(curToken.toString());
 	                           
-	                           System.out.println("value: "+val2+"\t\tgrammar: "+secGrammar.getKeyword());
 	                           curToken = new Token(lineCount, "");
 	                           curToken.setValue(val2);                         
 	                           curToken.setGrammar(secGrammar);
 	                           bankOftokens.add(curToken);  
+	                           System.out.println(curToken.toString());
                            } else if (value.substring(0,1).equals(")") && value.substring(value.length()-1).equals(";")) {
                         	   String val1 = value.substring(0,1);
                         	   String val2 = value.substring(value.length()-1);
                         	   Grammar firGrammar = (Grammar)lexcon.get(val1);
                         	   Grammar secGrammar = (Grammar)lexcon.get(val2);
                         	   
-                        	   System.out.println("value: "+val1+"\t\tgrammar: "+firGrammar.getKeyword());
                                curToken.setValue(val1);                         
 	                           curToken.setGrammar(firGrammar);
 	                           bankOftokens.add(curToken);  
+	                           System.out.println(curToken.toString());
 	                           
-	                           System.out.println("value: "+val2+"\t\tgrammar: "+secGrammar.getKeyword());
 	                           curToken = new Token(lineCount, "");
 	                           curToken.setValue(val2);                         
 	                           curToken.setGrammar(secGrammar);
 	                           bankOftokens.add(curToken);  
+	                           System.out.println(curToken.toString());
                            } else {
                         	   curToken.setValue(value);                         
 	                           curToken.setGrammar(curGrammar);
 	                           bankOftokens.add(curToken);  
-	                           System.out.println("value: "+value+"\t\tgrammar: "+curGrammar.getKeyword());
+	                           System.out.println(curToken.toString());
                            }
                         }                                         
                     }                
                 }
                 bankOftokens.add(new Token(lineCount, "", new Grammar(0, "eof")));
-		file.close();
+                System.out.println();
+                
+                file.close();
             }
             catch(IOException e)
             {
