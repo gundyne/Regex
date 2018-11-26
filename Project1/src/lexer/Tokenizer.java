@@ -303,8 +303,9 @@ public class Tokenizer
                         }                                         
                     }                
                 }
-                bankOftokens.add(new Token(lineCount, "", new Grammar(0, "eof")));
-                System.out.println();
+                Token eof = new Token(lineCount, "", new Grammar(0, "eof"));
+                bankOftokens.add(eof);
+                System.out.println(eof.toString()+"\n");
                 
                 file.close();
             }
