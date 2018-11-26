@@ -133,6 +133,8 @@ public class Tokenizer
             
             try
             {
+            	System.out.println("Printing tokens...\n");
+            	
                 // Read each line
                 while ((line = file.readLine()) != null) 
                 {
@@ -175,7 +177,8 @@ public class Tokenizer
                                         if(nextWord.contains("\""))
                                         {
                                             int idx = nextWord.indexOf("\"");
-                                            value += " " + nextWord.substring(0, idx);
+                                            value += " " + nextWord.substring(0, idx+1);
+//                                            value += " " + nextWord.substring(0, idx);
 
                                             // May have character after 2nd '"'. Ex; "here is example",
                                             if(idx != nextWord.length() - 1)
@@ -214,6 +217,11 @@ public class Tokenizer
                             // otherwise
                             else
                             {
+//                            	if(value.substring(value.length()-1).equals("(")) {
+//                            		String val1 = value.substring(0, value.length()-1);
+//                            		String val2 = value.substring(value.length()-1);
+//                            	}
+//                            	
                                 curGrammar = (Grammar)lexcon.get(value);
                                 if(curGrammar == null) // Not found in lexicon
                                 {
@@ -232,14 +240,73 @@ public class Tokenizer
                             }
 
                            // Add to bankOftokens
-                           curToken.setValue(value);                         
-                           curToken.setGrammar(curGrammar);
-                           bankOftokens.add(curToken);  
+//                           System.out.println("value: "+value+"\t\tgrammar: "+curGrammar.getKeyword());
+                           
+                           if (!curGrammar.getKeyword().equals("error")) {
+	                           curToken.setValue(value);                         
+	                           curToken.setGrammar(curGrammar);
+	                           bankOftokens.add(curToken);  
+	                           System.out.println(curToken.toString());
+                           } else if (value.substring(value.length()-1).equals("(")) {
+                        	   String val1 = value.substring(0, value.length()-1);
+                        	   String val2 = value.substring(value.length()-1);
+                        	   
+                        	   Grammar secGrammar = (Grammar)lexcon.get(val2);
+                        	   Grammar firGrammar = (Grammar)lexcon.get(val1);
+                               if(firGrammar == null) // Not found in lexicon
+                               {
+                                   // If id
+                                   if(isId(val1))
+                                  {
+                                	   firGrammar = new Grammar();
+                                	   firGrammar.setId(2);
+                                	   firGrammar.setKeyword("id");
+                                  }
+                                   else
+                                   {
+                                	   firGrammar = new Grammar(99, "error");
+                                   }
+                               }
+                               
+                               curToken.setValue(val1);                         
+	                           curToken.setGrammar(firGrammar);
+	                           bankOftokens.add(curToken); 
+	                           System.out.println(curToken.toString());
+	                           
+	                           curToken = new Token(lineCount, "");
+	                           curToken.setValue(val2);                         
+	                           curToken.setGrammar(secGrammar);
+	                           bankOftokens.add(curToken);  
+	                           System.out.println(curToken.toString());
+                           } else if (value.substring(0,1).equals(")") && value.substring(value.length()-1).equals(";")) {
+                        	   String val1 = value.substring(0,1);
+                        	   String val2 = value.substring(value.length()-1);
+                        	   Grammar firGrammar = (Grammar)lexcon.get(val1);
+                        	   Grammar secGrammar = (Grammar)lexcon.get(val2);
+                        	   
+                               curToken.setValue(val1);                         
+	                           curToken.setGrammar(firGrammar);
+	                           bankOftokens.add(curToken);  
+	                           System.out.println(curToken.toString());
+	                           
+	                           curToken = new Token(lineCount, "");
+	                           curToken.setValue(val2);                         
+	                           curToken.setGrammar(secGrammar);
+	                           bankOftokens.add(curToken);  
+	                           System.out.println(curToken.toString());
+                           } else {
+                        	   curToken.setValue(value);                         
+	                           curToken.setGrammar(curGrammar);
+	                           bankOftokens.add(curToken);  
+	                           System.out.println(curToken.toString());
+                           }
                         }                                         
                     }                
                 }
                 bankOftokens.add(new Token(lineCount, "", new Grammar(0, "eof")));
-		file.close();
+                System.out.println();
+                
+                file.close();
             }
             catch(IOException e)
             {
@@ -279,22 +346,22 @@ public class Tokenizer
         a4lexcon.put(";", new Grammar(7, "semi"));
 
         // A4 Lexcon Keywords
-        a4lexcon.put("prog", new Grammar(10, "kprog"));
-        a4lexcon.put("main", new Grammar(11, "kmain"));
-        a4lexcon.put("fcn", new Grammar(12, "kfcn"));
-        a4lexcon.put("class", new Grammar(13, "kclass"));
-        a4lexcon.put("float", new Grammar(15, "kfloat"));
-        a4lexcon.put("int", new Grammar(16, "kint"));
-        a4lexcon.put("string", new Grammar(17, "kstring"));
-        a4lexcon.put("if", new Grammar(18, "kif"));
-        a4lexcon.put("elseif", new Grammar(19, "kelseif"));
-        a4lexcon.put("else", new Grammar(20, "kelse"));
-        a4lexcon.put("while", new Grammar(21, "kwhile"));
-        a4lexcon.put("input", new Grammar(22, "kinput"));
+        a4lexcon.put("prog", new Grammar(10, "kwdprog"));
+        a4lexcon.put("main", new Grammar(11, "kwdmain"));
+        a4lexcon.put("fcn", new Grammar(12, "kwdfcn"));
+        a4lexcon.put("class", new Grammar(13, "kwdclass"));
+        a4lexcon.put("float", new Grammar(15, "kwdfloat"));
+        a4lexcon.put("int", new Grammar(16, "kwdint"));
+        a4lexcon.put("string", new Grammar(17, "kwdstring"));
+        a4lexcon.put("if", new Grammar(18, "kwdif"));
+        a4lexcon.put("elseif", new Grammar(19, "kwdelseif"));
+        a4lexcon.put("else", new Grammar(20, "kwdelse"));
+        a4lexcon.put("while", new Grammar(21, "kwdwhile"));
+        a4lexcon.put("input", new Grammar(22, "kwdinput"));  // ??
         a4lexcon.put("print", new Grammar(23, "kprint"));
-        a4lexcon.put("new", new Grammar(24, "knew"));
-        a4lexcon.put("return", new Grammar(25, "kreturn"));
-        a4lexcon.put("var", new Grammar(25, "kvar"));
+        a4lexcon.put("new", new Grammar(24, "kwdnew")); // ??
+        a4lexcon.put("return", new Grammar(25, "kwdreturn"));
+        a4lexcon.put("var", new Grammar(25, "kwdvars"));
 
         // A4 Lexcon paired delimiters
         a4lexcon.put("<", new Grammar(31, "angle1"));
@@ -322,8 +389,8 @@ public class Tokenizer
         a4lexcon.put("!=", new Grammar(53, "opne"));
         a4lexcon.put("<=", new Grammar(54, "ople"));
         a4lexcon.put(">=", new Grammar(55, "opge"));
-        a4lexcon.put("<<", new Grammar(56, "opshl"));
-        a4lexcon.put(">>", new Grammar(57, "opshr"));
+//        a4lexcon.put("<<", new Grammar(56, "opshl"));
+//        a4lexcon.put(">>", new Grammar(57, "opshr"));
 
         //A4 Lexcon Misc
         a4lexcon.put("", new Grammar(99, "error")); // error

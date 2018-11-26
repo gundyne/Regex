@@ -20,16 +20,17 @@ public class Parser
     private static Stack<Node> inputStack;
     private static ArrayList<Token> tokens;
     private static Node root;
-
+    
+    
     public static void main(String args[]) 
     {
-        Node astRoot = getASTRoot(true);
+        Node astRoot = getASTRoot(true,args[0]);
         printTree(astRoot, 0);
     }//ending main method
 
-    public static Node getASTRoot(boolean printThisPST) 
+    public static Node getASTRoot(boolean printThisPST,String location) 
     {
-        ParseTable table = init();
+        ParseTable table = init(location);
         if (table == null) 
         {
             System.out.println("Error: Tokenizer failed to initiate");
@@ -41,25 +42,40 @@ public class Parser
             String currentStackTop = inputStack.peek().getKeyword();
             String currentInputFront = tokens.get(0).getGrammar().getKeyword();
 
+            System.out.println("-----------------------------");
+            System.out.println("Stack top: "+currentStackTop);
+            System.out.println("Stream front: "+currentInputFront);
+            
+            
             if (currentStackTop.equals(currentInputFront) || currentStackTop.equals("$")) 
             {
+            	System.out.println("\n<inside m1 condition>");
                 m1();
             } else if (m2(currentStackTop)) 
             {
+            	System.out.println("\n<inside m2 condition>");
                 error("M2");
             } else 
             {
                 Rule currentRule = table.get(currentStackTop, currentInputFront);
+                
+                if (currentRule != null)
+                	System.out.println("Rule ID: "+currentRule.getId());
+                
                 if (m3(currentRule)) 
                 {
+                	System.out.println("\n<inside m3 condition>");
+                	//break;
                     error("M3");
                 } else 
                 {
+                	System.out.println("\n<inside m4 condition>");
                     m4(currentRule);
                 } //Ending nested if else condition statement
             } // Ending nested if else condition statement
         } // Ending while loop condition statement
 
+        System.out.println(printThisPST);
         if (printThisPST)
             printTree(root, 0);
         //Ending if condition statement
@@ -68,11 +84,14 @@ public class Parser
 
    
     //function to start the ll parse table to read from 
-    private static ParseTable init()
+    private static ParseTable init(String location)
     {
-        Tokenizer tokenizer = new Tokenizer("program.txt");
+        //Tokenizer tokenizer = new Tokenizer("program.txt");
+    	Tokenizer tokenizer = new Tokenizer(location);
 
         tokens = tokenizer.printTokens();
+ 
+        
         //ending if condition statement
         if (tokens == null || tokens.isEmpty())
             return null;
@@ -116,9 +135,12 @@ public class Parser
         {
             Node parent = inputStack.pop();
 
+            // SYSOUT
+            System.out.println("LHS: "+currentRule.getLhs()+" RHS: "+currentRule.getRhs());
             String[] reversed = currentRule.getReversedRhsArray();
             for (String keyword : reversed) 
             {
+            	System.out.println("kw: "+keyword);
                 Node child = new Node(keyword);
                 parent.addChild(child);
                 inputStack.push(child);

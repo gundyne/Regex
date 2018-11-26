@@ -55,7 +55,7 @@ public class ParseTable
     //function to get associated rule id form rule 
     private int lookup(int currentLeftId, int currentRightId)
     {
-        if (currentLeftId > 63 || currentLeftId < 0 || currentRightId > 40 || currentRightId < 0) 
+        if (currentLeftId > 64 || currentLeftId < 0 || currentRightId > 41 || currentRightId < 0) 
         {
             return -1;
         }//ending if condition statement
@@ -65,7 +65,7 @@ public class ParseTable
     //function to fill table
     private void fillTable()
     {
-        table = new int[64][41];
+        table = new int[65][42];
         
         // Pgm
         table[0][0] = 1; // kwdprog
@@ -429,6 +429,15 @@ public class ParseTable
         table[63][38] = 109; // slash
         table[63][39] = 110; // caret
         
+        table[64][9] = 111; //int
+        table[64][10] = 111; //float
+        table[64][11] = 111; //string
+        table[64][15] = 111; //id
+        table[64][18] = 111; //aster
+        table[64][29] = 111; //ampersand
+        table[64][5] = 111; //parens1
+        table[64][41] = 112;
+        
 //        table[0][0] = 1;
 //        table[1][1] = 2;
 //        table[2][2] = 4;
@@ -603,6 +612,7 @@ public class ParseTable
         nMapper.put("Gthan", 61);
         nMapper.put("Opadd", 62);
         nMapper.put("Opmul", 63);
+        nMapper.put("Stasgn_tail", 64);
         
 //        nMapper = new HashMap<>();
 //        nMapper.put("Pgm", 0);
@@ -678,6 +688,7 @@ public class ParseTable
         tMapper.put("slash", 38);
         tMapper.put("caret", 39);
         tMapper.put("eps", 40);
+        tMapper.put("kwdinput", 41);
         
         
         
