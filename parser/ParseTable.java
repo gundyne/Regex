@@ -146,9 +146,12 @@ public class ParseTable
         // Varid_tail
         table[15][2] = 26; // brace1
         table[15][5] = 27 ; // parens1
+        table[15][6] = 28; // comma
         table[15][19] = 28; // comma
         table[15][7] = 28; // semi
         table[15][8] = 28; // equal
+        table[15][18] = 28; // equal
+        table[15][36] = 28; // equal
 
         // Varid_item
         table[16][15] = 29; // id
@@ -193,6 +196,8 @@ public class ParseTable
         table[22][19] = 37; // comma
         table[22][3] = 38; // brace2
         table[22][17] = 38; // bracket2
+        table[22][6] = 38; // parens2
+        table[22][5] = 38; // parens1
         
         // Classdecl
         table[23][20] = 39; // kwdclass
@@ -344,6 +349,7 @@ public class ParseTable
         table[52][33] = 85; // opge
         table[52][19] = 86; // comma
         table[52][17] = 86; // bracket2
+        table[52][5] = 86; // parens2
         table[52][6] = 86; // parens2
         
         // Rterm
@@ -356,6 +362,8 @@ public class ParseTable
         table[53][29] = 87; // ampersand
         
         // Rterm_rec
+        table[54][19] = 89; // comma
+        table[54][6] = 89; // parens2
         table[54][37] = 88; // minus
         table[54][36] = 88; // plus
         table[54][34] = 89; // angle1
@@ -380,6 +388,8 @@ public class ParseTable
         table[56][38] = 91; // slash
         table[56][37] = 92; // minus
         table[56][36] = 92; // plus
+        table[56][19] = 92; // parens1
+        table[56][6] = 92; // parens2
         table[56][9] = 93; // int
         table[56][10] = 93; // float
         table[56][11] = 93; // string
@@ -411,8 +421,8 @@ public class ParseTable
         table[61][35] = 105; // angle2
         
         // Opadd
-        table[62][31] = 106; // plus
-        table[62][31] = 107; // minus
+        table[62][36] = 106; // plus
+        table[62][37] = 107; // minus
         
         // Opmul
         table[63][18] = 108; // aster
