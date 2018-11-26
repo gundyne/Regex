@@ -37,45 +37,34 @@ public class Parser
             System.exit(1);
         }//ending if condition statement for error
 
+        System.out.println("Creating tree...\n");
+        
         while(!inputStack.empty())
         {
             String currentStackTop = inputStack.peek().getKeyword();
             String currentInputFront = tokens.get(0).getGrammar().getKeyword();
 
-            System.out.println("-----------------------------");
-            System.out.println("Stack top: "+currentStackTop);
-            System.out.println("Stream front: "+currentInputFront);
-            
-            
             if (currentStackTop.equals(currentInputFront) || currentStackTop.equals("$")) 
             {
-            	System.out.println("\n<inside m1 condition>");
-                m1();
+            	m1();
             } else if (m2(currentStackTop)) 
             {
-            	System.out.println("\n<inside m2 condition>");
-                error("M2");
+            	error("M2");
             } else 
             {
                 Rule currentRule = table.get(currentStackTop, currentInputFront);
                 
-                if (currentRule != null)
-                	System.out.println("Rule ID: "+currentRule.getId());
-                
                 if (m3(currentRule)) 
                 {
-                	System.out.println("\n<inside m3 condition>");
-                	//break;
-                    error("M3");
+                	error("M3");
                 } else 
                 {
-                	System.out.println("\n<inside m4 condition>");
-                    m4(currentRule);
+                	m4(currentRule);
                 } //Ending nested if else condition statement
             } // Ending nested if else condition statement
         } // Ending while loop condition statement
 
-        System.out.println(printThisPST);
+        
         if (printThisPST)
             printTree(root, 0);
         //Ending if condition statement
@@ -135,13 +124,10 @@ public class Parser
         {
             Node parent = inputStack.pop();
 
-            // SYSOUT
-            System.out.println("LHS: "+currentRule.getLhs()+" RHS: "+currentRule.getRhs());
             String[] reversed = currentRule.getReversedRhsArray();
             for (String keyword : reversed) 
             {
-            	System.out.println("kw: "+keyword);
-                Node child = new Node(keyword);
+            	Node child = new Node(keyword);
                 parent.addChild(child);
                 inputStack.push(child);
             }//ending for loop statement

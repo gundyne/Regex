@@ -34,9 +34,7 @@ public class ParseTable
         int lId = nMapper.get(topofMap);
         int rId = tMapper.get(frontOfMap);
 
-        // SYSOUT
-        System.out.println("LHS_ID: "+Integer.toString(lId)+" / RHS_ID: "+Integer.toString(rId));
-        
+       
         if (lId == -1 || rId == -1) 
         {
             return null;
