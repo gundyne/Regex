@@ -18,13 +18,17 @@ public class Regex {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+    	
         // Creating tokenizer to handle tokens found from the file
-        Tokenizer tokTest = new Tokenizer(args[0]);
+//        Tokenizer tokTest = new Tokenizer(args[0]);
+    	Tokenizer tokTest = new Tokenizer("./lexer/A4-sample.acod");
+        
         // Determine where the file being opened is stored at
         String fileLocation = args[0].substring(0, args[0].lastIndexOf("\\")+1);
         ArrayList<Token> tokenList = tokTest.printTokens();
         try {
             try (Writer fileWriter = new FileWriter(new File(fileLocation+"output.txt"),false)) {
+            	
                 //Writing tokens to output.txt
                 for(Token t: tokenList)
                     fileWriter.write(t.toString()+'\n');
