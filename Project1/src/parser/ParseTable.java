@@ -347,8 +347,9 @@ public class ParseTable
         table[52][33] = 85; // opge
         table[52][19] = 86; // comma
         table[52][17] = 86; // bracket2
-        table[52][5] = 86; // parens2
+        table[52][5] = 86; // parens1
         table[52][6] = 86; // parens2
+        table[52][7] = 86; // semi
         
         // Rterm
         table[53][15] = 87; // id
@@ -370,6 +371,7 @@ public class ParseTable
         table[54][31] = 89; // opne
         table[54][32] = 89; // ople
         table[54][33] = 89; //opge
+        table[54][7] = 89; //semi
         
         // Term
         table[55][15] = 90; // id
@@ -387,6 +389,7 @@ public class ParseTable
         table[56][37] = 92; // minus
         table[56][36] = 92; // plus
         table[56][19] = 92; // parens1
+        table[56][7] = 92; // semi
         table[56][6] = 92; // parens2
         table[56][9] = 93; // int
         table[56][10] = 93; // float
