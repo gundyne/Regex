@@ -4,10 +4,10 @@ Project Number and Name: Project #2 Parser
 
 Team Name and Members: 
 	(Team FAQ)
-	Dat Doan
-	Long Truong
-	Andre Barajas
-	Trisha Echual
+	Dat Doan,
+	Long Truong,
+	Andre Barajas,
+	Trisha Echual,
 
 Intro (including algorithm used): 
 The paser use the token stream output from the Lexer (or hand-built) to create a Parse Tree(PST) and convert it to an AST.
