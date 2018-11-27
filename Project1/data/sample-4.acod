@@ -2,5 +2,5 @@ prog main { // Find the sum of 2 numbers
   a = input ( int ) ;
   b = input ( int ) ;
   sum = a + b ;
-  print ( "Sum : " , sum) ; 
+  print ( "Sum : " , sum ) ; 
 }

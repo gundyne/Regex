@@ -1,7 +1,7 @@
-prog main { // Find the average of 3 numbers
+prog main { // Find the product of 3 numbers
  a = input ( int ) ;
  b = input ( int ) ;
  c = input ( int ) ;
- sum = a + b + c ;
- print ( "Average : " , sum / 3 ) ;
+ prod = a * b * c ;
+ print ( "Product : " , prod ) ;
 }
