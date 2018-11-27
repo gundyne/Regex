@@ -29,3 +29,7 @@ External Requirements: None
 
 Setup and Installation (if any): 
 Run the program with the location of the file you want to scan as the first argument, look at Sample Invocation to see how it is formatted.
+
+Features added: None
+
+Bugs(if any): None
