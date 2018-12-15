@@ -26,8 +26,10 @@ public class ASTRunner extends SCTBuilder
         this.astRoot = aRootNode;
         this.sctRoot = buildScopeTree(aRootNode);
     }//Ending overloaded constructor 
-
-   //run function for use 
+ 
+    /**
+     * run point of entry
+     */
     public void run() 
     {
         run(sctRoot, astRoot);
@@ -35,7 +37,11 @@ public class ASTRunner extends SCTBuilder
     }//Ending run function
 
    
-    //Function to Access AST and run recursively 
+    /**
+     * function to access ast and run recursively
+     * @param sRootNode
+     * @param aRootNode
+     */
     private void run(SCTNode sRootNode, Node aRootNode) 
     {
         if (isBlock(aRootNode))
@@ -68,16 +74,26 @@ public class ASTRunner extends SCTBuilder
         ArrayList<Node> children = aRootNode.getChildren();
         for (int i = 0; i < children.size(); i++)
             run(sRootNode, children.get(i));
-    }//Ending run function 
-
+    }
+    
+    /**
+     * 
+     * @param aNode
+     * @return
+     */
     private boolean isPrint(Node aNode)
     {
         if (aNode == null)
             return false;
         //Ending if condition statement
         return aNode.getKeyword().equals("kprint");
-    }//Ending isPring method
-
+    }
+    
+    /**
+     * 
+     * @param sNode
+     * @param aRootNode
+     */
     private void handlePrint(SCTNode sNode, Node aRootNode)
     {
         ArrayList<Node> children = aRootNode.getChildren();
@@ -85,8 +101,13 @@ public class ASTRunner extends SCTBuilder
         System.out.print(nodeToPrint.getValue().replaceAll("^\"|\"$", ""));
         printArgs(sNode, nodeToPrint);
         System.out.println(""); 
-    }//Ending handlePrint method 
-    //employed in recursions where scope of a tree is present
+    }
+    
+    /**
+     * employed in recursions where scope of a tree is present
+     * @param sNode
+     * @param aNode
+     */
     private void printArgs(SCTNode sNode, Node aNode)
     {
         ArrayList<Node> children = aNode.getChildren();
@@ -100,8 +121,13 @@ public class ASTRunner extends SCTBuilder
             System.out.print(Operations.doOperation(sNode, nodeToOperate));
         //ending if else condition statement
         printArgs(sNode, nodeToOperate);
-    }//Ending printArgs method
-
+    }
+    
+    /**
+     * 
+     * @param aNode
+     * @return
+     */
     private boolean isWhile(Node aNode) 
     {
         if (aNode == null)
@@ -117,8 +143,14 @@ public class ASTRunner extends SCTBuilder
         {
             run(sNode, body);
         }//ending while loop statement
-    }//Ending handlWhile function
+    }
 
+    /**
+     * 
+     * @param sNode
+     * @param aNode
+     * @return
+     */
     private boolean evaluate(SCTNode sNode, Node aNode)
     {
         String left = sNode.findEntry(aNode.getChildren().get(1));
@@ -147,14 +179,21 @@ public class ASTRunner extends SCTBuilder
             default:
                 return false;
         }//ending switch case statement
-    }//ending evaluate function
-    //Pre order approach to printing tree recursively
+    }
+    
+    /**
+     * pre order walk to print tree
+     */
     public void printScopeTree() 
     {
         printTree(sctRoot, 0);
     }//ending printScopeTree method
 
-    //Pre order print: recursive
+    /**
+     * 
+     * @param rootNode
+     * @param currentLevel
+     */
     public static void printTree(SCTNode rootNode, int currentLevel) 
     {
         if (rootNode == null)
@@ -169,7 +208,13 @@ public class ASTRunner extends SCTBuilder
         {
             printTree(child, currentLevel);
         }//ending for loop statement
-    }//ending printTree function
+    }
+
+    /**
+     * 
+     * @param currentLevel
+     * @return
+     */
     private static String getSpacing(int currentLevel)
     {
         String data = "";

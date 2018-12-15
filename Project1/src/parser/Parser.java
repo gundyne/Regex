@@ -54,8 +54,14 @@ public class Parser
         System.out.println("\n\n");
         runner.run();
         
-    }//ending main method
+    }
 
+    /**
+     * 
+     * @param printThisPST
+     * @param location
+     * @return
+     */
     public static Node getASTRoot(boolean printThisPST,String location) 
     {
         ParseTable table = init(location);
@@ -88,19 +94,23 @@ public class Parser
                 } else 
                 {
                 	m4(currentRule);
-                } //Ending nested if else condition statement
-            } // Ending nested if else condition statement
-        } // Ending while loop condition statement
+                } 
+            }
+        } 
 
         
         if (printThisPST)
             printTree(root, 0);
-        //Ending if condition statement
+       
         return ASTConverter.convert(root);
-    } // Ending getASTRoon function 
+    } 
 
    
-    //function to start the ll parse table to read from 
+    /**
+     * start the ll parse table to read from 
+     * @param location
+     * @return
+     */
     private static ParseTable init(String location)
     {
         //Tokenizer tokenizer = new Tokenizer("program.txt");
@@ -108,19 +118,19 @@ public class Parser
 
         tokens = tokenizer.printTokens();
  
-        
-        //ending if condition statement
         if (tokens == null || tokens.isEmpty())
             return null;
-        //ending if condition statement
+
         inputStack = new Stack<Node>();
         root = new Node("Pgm");
         inputStack.push(root);
 
         return new ParseTable();
-    }//ending init function
-    
-    //function to pop any node from the top of the stack and adds value to front of the input stream
+    }
+
+    /**
+     * pop any node from the top of the stack and adds value to front of the input stream
+     */
     private static void m1() 
     {
         Node poppedNode = inputStack.pop();
@@ -129,20 +139,31 @@ public class Parser
         poppedNode.setValue(poppedToken.getValue());
     }
 
-    //function to return i the top stack is terminal symb.
+
+    /**
+     * return i to top of stacj is terminal symb
+     * @param currentTop
+     * @return
+     */
     private static boolean m2(String currentTop)
     {
         return !currentTop.isEmpty() && Character.isLowerCase(currentTop.charAt(0));
     }
 
+    /**
+     * 
+     * @param currentRule
+     * @return
+     */
     private static boolean m3(Rule currentRule) 
     {
         return currentRule == null;
     }
 
-  
-    
-    //pops if epsilon rule is present or for matching rule
+    /**
+     * pops if epsilon rule is present or for matching rule
+     * @param currentRule
+     */
     private static void m4(Rule currentRule) 
     {
         if (currentRule.isEpsilonRule()) 
@@ -158,10 +179,14 @@ public class Parser
             	Node child = new Node(keyword);
                 parent.addChild(child);
                 inputStack.push(child);
-            }//ending for loop statement
-        }//ending if else condition statement
+            }
+        }
     }
 
+    /**
+     * 
+     * @param currentError
+     */
     private static void error(String currentError)
     {
         System.out.println(currentError + " ERROR.");
@@ -169,12 +194,16 @@ public class Parser
     }
 
   
-    //pre order print of the tree 
+    /**
+     * pre order print of the tree
+     * @param rootNode
+     * @param nodeLevel
+     */
     public static void printTree(Node rootNode, int nodeLevel) 
     {
         if (rootNode == null)
             return;
-        //ending if condition statement
+
         String tab = getSpacing(nodeLevel);
         System.out.println(tab + "(" + rootNode + ")");
 
@@ -183,15 +212,20 @@ public class Parser
         for (Node child : children)
         {
             printTree(child, nodeLevel);
-        }//ending enhanced for loop statement
+        }
     }
-    //function used in tree printing
+
+    /**
+     * function used in tree printing
+     * @param nodeLevel
+     * @return
+     */
     private static String getSpacing(int nodeLevel)
     {
         String data = "";
         for (int i = 0; i < nodeLevel; i++)
         	data = data + "  ";
-        //ending for loop statement
+
 
         return data;
     }

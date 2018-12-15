@@ -23,6 +23,10 @@ public class SCTNode
         this.symbolTable = new HashSet<>();
     }//ending SCTNode default constructor
 
+    /**
+     * 
+     * @param sNode
+     */
     public SCTNode(SCTNode sNode)
     {
         this.children = new ArrayList<>();
@@ -32,7 +36,11 @@ public class SCTNode
     }//Ending copy constructor
     
     
-    //Locates value which is associated to the declaration
+    /**
+     * Locates value which is associated to the declaration
+     * @param aNode
+     * @return
+     */
     public String findEntry(Node aNode)
     {
         if (aNode == null)
@@ -56,9 +64,13 @@ public class SCTNode
             return this.parent.findEntry(aNode);
         else
             return "";
-        //ending if else statement 
     }
-    //Method to add any new symbols to a SCTNode.(i.e. if they're not there. 
+   
+    
+    /**
+     * Method to add any new symbols to a SCTNode.(i.e. if they're not there. 
+     * @param tEntry
+     */
     public void addSymbol(TableEntry tEntry) 
     {
         if (tEntry == null)
@@ -72,8 +84,8 @@ public class SCTNode
             if (!symbolTable.contains(tEntry)) 
             {
                 symbolTable.add(tEntry);
-            }//Ending if condition statement
-        }//ending if condition statement
+            }
+        }
 
         Node nodeToTest = tEntry.getAstNode().getChildren().get(0);
         if ((Operations.isOperation(nodeToTest) || nodeToTest.getKeyword().equals("id"))
@@ -82,10 +94,16 @@ public class SCTNode
         	tEntry.setValue(Operations.doOperation(tEntry.getSctNode(), nodeToTest) + "");
         	tEntry.setType("float");
             symbolTable.add(tEntry);
-        }//ending if condition statement
-    }//ending addSysmbol method
+        }
+    }
 
-    //Updates after finding a current extant table entry in SCTNode or that of a parent
+   
+    /**
+     * Updates after finding a current extant table entry in SCTNode or that of a parent
+     * @param aNode
+     * @param data
+     * @return
+     */
     public boolean findAndUpdateEntry(Node aNode, String data) 
     {
         if (aNode == null)
@@ -98,8 +116,8 @@ public class SCTNode
             {
                 entry.setValue(data);
                 return true;
-            }//Ending nested if condition statement
-        }//ending for loop statement
+            }
+        }
 
         if (this.parent != null)
             return this.parent.findAndUpdateEntry(aNode, data);
@@ -107,9 +125,11 @@ public class SCTNode
         {
             return false;
         }
-        //Ending if else statement 
-    }//ending  find and update entry function
+    }
 
+    /**
+     * 
+     */
     @Override 
     public String toString()
     {
@@ -119,31 +139,56 @@ public class SCTNode
                 '}';
         return value;
     }
-  //Setters and getters for class
 
+    /**
+     * 
+     * @return
+     */
     public ArrayList<SCTNode> getChildren()
     {
         return children;
     }
 
+    /**
+     * 
+     * @param currentNode
+     */
     public void addChild(SCTNode currentNode)
     {
         this.children.add(currentNode);
     }
+    
+    /**
+     * 
+     * @return
+     */
     public SCTNode getParent()
     {
         return parent;
     }
-
+    
+    /**
+     * 
+     * @param currentParent
+     */
     public void setParent(SCTNode currentParent) 
     {
         this.parent = currentParent;
     }
+    
+    /**
+     * 
+     * @return
+     */
     public HashSet<TableEntry> getSymbolTable()
     {
         return symbolTable;
     }
 
+    /**
+     * 
+     * @param symTable
+     */
     public void setSymbolTable(HashSet<TableEntry> symTable) 
     {
         this.symbolTable = symTable;
