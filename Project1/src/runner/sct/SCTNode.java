@@ -79,8 +79,10 @@ public class SCTNode
         if ((Operations.isOperation(nodeToTest) || nodeToTest.getKeyword().equals("id"))
                 && findEntry(tEntry.getAstNode().getChildren().get(1)).equals(""))
         {
+                tEntry.setType(tEntry.getAstNode().getChildren().get(1).getChildren().get(1).getKeyword());
         	tEntry.setValue(Operations.doOperation(tEntry.getSctNode(), nodeToTest) + "");
-        	tEntry.setType("float");
+                if(tEntry.getType().equals("int"))
+                    tEntry.setValue(tEntry.getValue().split("\\.")[0]);
             symbolTable.add(tEntry);
         }//ending if condition statement
     }//ending addSysmbol method
@@ -97,6 +99,8 @@ public class SCTNode
             if (entry.getId().equals(aNode.getValue())) 
             {
                 entry.setValue(data);
+                if(entry.getType().equals("int"))
+                    entry.setValue(entry.getValue().split("\\.")[0]);
                 return true;
             }//Ending nested if condition statement
         }//ending for loop statement

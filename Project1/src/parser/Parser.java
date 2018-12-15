@@ -28,23 +28,29 @@ public class Parser
     public static void main(String args[]) 
     {
         //Node astRoot = getASTRoot(false,args[0]);
-        Node astRoot = new Node("brace1");
+        
+        Node astRoot = new Node("kwdprog");
+        Node main = new Node("kwdmain");
+        Node block = new Node("brace1");
         Node line1 = new Node("equal");
         Node line2 = new Node("equal");
         Node meth = new Node("aster");
         Node val1 = new Node("id","test");
-        Node val2 = new Node("float","500");
-        Node val3 = new Node("float","100");
+        Node val2 = new Node("int","500");
+        Node val3 = new Node("int","100");
         Node val4 = new Node("id","test");
-        Node val5 = new Node("float","100");
-        astRoot.addChild(line1);
-        astRoot.addChild(line2);
+        Node val5 = new Node("int","100");
+        astRoot.addChild(main);
+        main.addChild(block);
+        block.addChild(line1);
+        block.addChild(line2);
         line1.addChild(val1);
         line1.addChild(meth);
         meth.addChild(val2);
         meth.addChild(val3);
         line2.addChild(val4);
         line2.addChild(val5);
+        
         printTree(astRoot, 0);
         ASTRunner astRun = new ASTRunner(astRoot);
         astRun.run();

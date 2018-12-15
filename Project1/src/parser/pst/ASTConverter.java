@@ -47,31 +47,33 @@ public class ASTConverter
                     	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "BBlock":
-                    	hoistOp = fix2(bankOfChildren);
+                        bankOfChildren.remove(0);
+                    	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "Vargroup":
                     	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "PPvarlist":
-                    	hoistOp = fix3(bankOfChildren);
+                        bankOfChildren.remove(0);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Varlist":
-                    	hoistOp = fix4(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "Vardecl":
                     	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Basekind":
-                    	hoistOp = fix0(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(0);
                         break;
                     case "Varid":
-                    	hoistOp = fix0(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(0);
                         break;
                     case "Stmts":
                     	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Stmt":
-                    	hoistOp = fix0(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(0);
                         break;
                     case "Stasgn":
                     	hoistOp = bankOfChildren.remove(1);
@@ -80,13 +82,13 @@ public class ASTConverter
                     	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Stwhile":
-                    	hoistOp = fix4(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "PPexprs":
-                    	hoistOp = fix4(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(0);
                         break;
                     case "PPexpr1":
-                    	hoistOp = fix4(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "Exprlist":
                     	hoistOp = bankOfChildren.remove(1);
@@ -95,19 +97,19 @@ public class ASTConverter
                     	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "S":
-                    	hoistOp = fix4(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "Expr":
                     	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "R":
-                    	hoistOp = fix4(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "Rterm":
-                    	hoistOp = fix0(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(0);
                         break;
                     case "Q":
-                    	hoistOp = fix4(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "Rterm_rec":
                     	hoistOp = bankOfChildren.remove(0);
@@ -122,7 +124,7 @@ public class ASTConverter
                     	integrate = true;
                         break;
                     default:
-                    	hoistOp = fix0(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(0);
                 } //Ending switch case statement
             }//ending if condition statement
 
@@ -136,38 +138,6 @@ public class ASTConverter
         return hoistOp;
     }//ending fix method
 
-    //----------------- function to handle pgm, vargroup, vardecl, stmts, stasgn ... etc---------------------
-    private static Node fix1(ArrayList<Node> bankOfChildren) 
-    {
-        return bankOfChildren.remove(1);
-    }
-
-    //  bblock
-    private static Node fix2(ArrayList<Node> bankOfChildren) 
-    {
-    	bankOfChildren.remove(0);
-        return bankOfChildren.remove(2);
-    }
-
-    //  ppvarlist
-    private static Node fix3(ArrayList<Node> bankOfChildren)
-    {
-    	bankOfChildren.remove(0);
-        return bankOfChildren.remove(1);
-    }
-
-    //  varlist, stwhile, ppexprs, ppexpr1, S, R, Q
-    private static Node fix4(ArrayList<Node> bankOfChildren)
-    {
-        return bankOfChildren.remove(2);
-    }
-
-    //  basekind, varid, stmt, default
-    private static Node fix0(ArrayList<Node> bankOfChildren) 
-    {
-        return bankOfChildren.remove(0);
-    }
-
     private static Node fixExtra(Node curretNode) 
     {
         Node hoistOp = curretNode;
@@ -178,7 +148,7 @@ public class ASTConverter
 
             if (children.size() >= 1)
             {
-            	hoistOp = fix0(children);
+            	hoistOp = children.remove(0);;
             	hoistOp.replaceChildren(children);
             }//ending nested if condition
         }//ending if condition statement
@@ -197,7 +167,7 @@ public class ASTConverter
                 	hoistOp = nodeToTest;
                 } else 
                 {
-                	hoistOp = fix0(bankOfChildren);
+                	hoistOp = bankOfChildren.remove(0);;
                 	hoistOp.replaceChildren(bankOfChildren);
                 }//ending nested if else condition statement
             }//ending nested if condition statement
