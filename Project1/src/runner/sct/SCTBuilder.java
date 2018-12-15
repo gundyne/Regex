@@ -11,8 +11,11 @@ import java.util.ArrayList;
 
 public class SCTBuilder 
 {
-
-	//method to create a scope tree from any given ASTNode
+	/**
+	 * create a scope tree from any given astnode
+	 * @param aRootNode
+	 * @return
+	 */
     public static SCTNode buildScopeTree(Node aRootNode) 
     {
         SCTNode sctNode = new SCTNode();
@@ -21,7 +24,13 @@ public class SCTBuilder
         //ending if condition statement
         return buildHelper(sctNode, aRootNode);
     }//ending SCTnode build scope tree methodS
-  //method to link and create a new sct Node/s
+
+    /**
+     * 
+     * @param sNode
+     * @param aNode
+     * @return
+     */
     private static SCTNode handleBlock(SCTNode sNode, Node aNode) 
     {
         SCTNode sCTChild = new SCTNode(sNode);
@@ -33,9 +42,14 @@ public class SCTBuilder
         }//Ending for loop statement
 
         return sCTChild;
-    }//Ending handleBlock statment
+    }
   
-    //Function used recursively to walk tree and edit declaration(add) any new sctNodes needed
+    /**
+     * function used recursively to walk tree and edit declaration (add) any new sctnodes needed
+     * @param sNode
+     * @param aNode
+     * @return
+     */
     private static SCTNode buildHelper(SCTNode sNode, Node aNode) 
     {
         if (aNode == null)
@@ -59,36 +73,59 @@ public class SCTBuilder
             }//ending nested for loop statement
         }//ending if else condition statement
         return sNode;
-    }//ending buildHelper method 
-    //function to check if a given node is a block or not 
+    }
+    
+    /**
+     * check if given node is a block or not
+     * @param aNode
+     * @return
+     */
     protected static boolean isBlock(Node aNode)
     {
         return aNode != null && aNode.getKeyword().equals("brace1");
-    }//ending mis Blockm method 
-
+    }
     
-    //function to check if an ast node  is of any use 
+    /**
+     * cjeck if an ast node is use
+     * @param aNode
+     * @return
+     */
     protected static boolean isUse(Node aNode) 
     {
         return aNode != null &&
         		aNode.getKeyword().equals("id") &&
                 !aNode.getParent().getKeyword().equals("equal");
-    }//ending inUse method 
-    //method to check if a given ast node is a declaration 
+    }
+    
+    /**
+     * check if given ast node is a declaration
+     * @param aNode
+     * @return
+     */
     protected static boolean isDeclaration(Node aNode) 
     {
         	return aNode != null &&
         			aNode.getKeyword().equals("equal") &&
         			aNode.getChildren().get(0).getKeyword().equals("id");
-    }//ending isDeclaration method
-    //function to create new entries in a scope of a tree for a given astNode at a level 
+    }
+
+    /**
+     * create new entries in a scope of a tree for a given astNode at a level 
+     * @param sNode
+     * @param aNode
+     */
     private static void handleDeclaration(SCTNode sNode, Node aNode) 
     {
         // This will be a decl, so grab the acc
         TableEntry entry = new TableEntry(sNode, aNode);
         sNode.addSymbol(entry);
-    }//Ending handleDeclaration
-    //function to locate a scope of a tree active 
+    }
+
+    /**
+     * locate scope of tree active
+     * @param sNode
+     * @param aNode
+     */
     private static void handleUse(SCTNode sNode, Node aNode) 
     {
         if (sNode == null || aNode == null)

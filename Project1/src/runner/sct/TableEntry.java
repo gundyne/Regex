@@ -19,7 +19,11 @@ public class TableEntry
     // ASTNode entry link
     private Node astNode;
    
-    
+    /**
+     * 
+     * @param sNode
+     * @param aNode
+     */
     public TableEntry(SCTNode sNode, Node aNode) 
     {
     	this.sctNode = sNode;
@@ -34,63 +38,104 @@ public class TableEntry
         } else 
         {
             this.value = children.get(1).getValue();
-        }//Ending if else condition statement
+        }
 
         this.id = children.get(0).getValue();
-    }//Ending Table Entry overloaded constructor
+    }
 
-    //Getters and Setter declerations 
+    /**
+     * 
+     * @return
+     */
     public String getId() 
     {
         return id;
     }
 
+    /**
+     * 
+     * @param iD
+     */
     public void setId(String iD) 
     {
         this.id = iD;
     }
+    
+    /**
+     * 
+     * @return
+     */
     public Node getAstNode() 
     {
         return astNode;
     }
 
+    /**
+     * 
+     * @param aNode
+     */
     public void setAstNode(Node aNode) 
     {
         this.astNode = aNode;
     }
+    
+    /**
+     * 
+     * @return
+     */
     public SCTNode getSctNode() 
     {
         return sctNode;
     }
 
+    /**
+     * 
+     * @param sNode
+     */
     public void setSctNode(SCTNode sNode) 
     {
         this.sctNode = sNode;
     }
 
-    
-
+    /**
+     * 
+     * @return
+     */
     public String getType() 
     {
         return type;
     }
 
+    /**
+     * 
+     * @param paradigm
+     */
     public void setType(String paradigm) 
     {
         this.type = paradigm;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getValue()
     {
         return value;
     }
 
+    /**
+     * 
+     * @param data
+     */
     public void setValue(String data) 
     {
         this.value = data;
     }
-//------------------------------ --------------- -----------------
-
+    
+    /**
+     * 
+     */
     @Override
     public String toString() 
     {
@@ -99,29 +144,37 @@ public class TableEntry
                 ", Type: '" + type + '\'' +
                 ", Value: '" + value + '\'' +
                 '}';
-    }//ending toString method
+    }
 
-
+    /**
+     * 
+     */
     @Override
     public boolean equals(Object target) 
     {
-        if (this == target) return true;
-        //ending if condition statement
-        if (target == null || getClass() != target.getClass()) return false;
-        //ending if condition statement
+        if (this == target) 
+        	return true;
+
+        if (target == null || getClass() != target.getClass()) 
+        	return false;
+
 
         TableEntry that = (TableEntry) target;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        //ending teritary condition statement
+        if (id != null ? !id.equals(that.id) : that.id != null) 
+        	return false;
+        
         return type != null ? type.equals(that.type) : that.type == null;
-    }//Ending equals method 
+    }
 
+    /**
+     * 
+     */
     @Override
     public int hashCode() 
     {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
-    }//ending hashCode function
+    }
 }//Ending Table entry class

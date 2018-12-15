@@ -14,7 +14,11 @@ import java.util.ArrayList;
 
 public class Operations 
 {
-	
+	/**
+	 * 
+	 * @param aNode
+	 * @return
+	 */
 	public static boolean isOperation(Node aNode)
 	{
 	    if (aNode == null)
@@ -27,19 +31,36 @@ public class Operations
 				keyword.equals("minus") ||
 				keyword.equals("caret") ||
 				keyword.equals("plus");		
-	}//ending isOperation function
+	}
+	
+	/**
+	 * 
+	 * @param aNode
+	 * @return
+	 */
     private static boolean isIdentifier(Node aNode) 
     {
 	    return aNode.getKeyword().equals("id");
     }//Ending isIdentifier method
 
+    /**
+     * 
+     * @param aNode
+     * @return
+     */
     private static boolean isNumber(Node aNode) 
     {
 	    String keyword = aNode.getKeyword();
 	    return keyword.equals("int") ||
                 keyword.equals("float");
-    }//Ending isNumber Method 
+    }
 
+    /**
+     * 
+     * @param sNode
+     * @param aNode
+     * @return
+     */
 	public static double doOperation(SCTNode sNode, Node aNode) 
 	{
 	    if (sNode == null || aNode == null)
@@ -58,39 +79,40 @@ public class Operations
         if (aNode.getKeyword().equals("parens1"))
         	aNode = aNode.getChildren().get(1);
 
-	if (!isOperation(aNode))
-		return 0;
+		if (!isOperation(aNode))
+			return 0;
 
-	String keyword = aNode.getKeyword();
-	ArrayList<Node> bankOfChildren = aNode.getChildren();
-        double returnValue = 0;
+		String keyword = aNode.getKeyword();
+		ArrayList<Node> bankOfChildren = aNode.getChildren();
+	        double returnValue = 0;
+	
+	        switch(keyword) 
+	        {
+	        		case "caret":
+			            double base = doOperation(sNode, bankOfChildren.get(1));
+			            double exponent = doOperation(sNode, bankOfChildren.get(0));
+			            returnValue = Math.pow(base, exponent);
+		            	break;
+		            case "minus":
+		                for (Node child : bankOfChildren)
+		                	returnValue = doOperation(sNode, child) - returnValue;
+		                break;
+		            case "plus":
+					    for (Node child : bankOfChildren)
+					    	returnValue += doOperation(sNode, child);
+					    break;
+		            case "aster" :
+		            	returnValue = 1;
+		                for (Node child: bankOfChildren)
+		                	returnValue *= doOperation(sNode, child);
+		                break;
+		            case "slash":
+		            	returnValue = 1;
+		                for (Node child : bankOfChildren)
+		                	returnValue = doOperation(sNode, child) / returnValue;
+		                break;
+			}
 
-        switch(keyword) 
-        {
-        		case "caret":
-		            double base = doOperation(sNode, bankOfChildren.get(1));
-		            double exponent = doOperation(sNode, bankOfChildren.get(0));
-		            returnValue = Math.pow(base, exponent);
-	            	break;
-	            case "minus":
-	                for (Node child : bankOfChildren)
-	                	returnValue = doOperation(sNode, child) - returnValue;
-	                break;
-	            case "plus":
-				    for (Node child : bankOfChildren)
-				    	returnValue += doOperation(sNode, child);
-				    break;
-	            case "aster" :
-	            	returnValue = 1;
-	                for (Node child: bankOfChildren)
-	                	returnValue *= doOperation(sNode, child);
-	                break;
-	            case "slash":
-	            	returnValue = 1;
-	                for (Node child : bankOfChildren)
-	                	returnValue = doOperation(sNode, child) / returnValue;
-	                break;
-		}//Ending switch case statement
-		return returnValue;
+			return returnValue;
 	}//Ending doOperation function	
 }//EndingOperations class
