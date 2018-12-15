@@ -51,7 +51,7 @@ public class ASTRunner extends SCTBuilder
            
          // Observe case that may find the entry and update 
             double value = Operations.doOperation(sRootNode, aRootNode.getChildren().get(1));
-            if(sRootNode.findEntry(aRootNode).equals(""))
+            if(sRootNode.findEntry(aRootNode.getChildren().get(0)).equals(""))
                 sRootNode.addSymbol(new TableEntry(sRootNode,aRootNode));
             else
                 sRootNode.findAndUpdateEntry(aRootNode.getChildren().get(0), value + "");
@@ -66,7 +66,7 @@ public class ASTRunner extends SCTBuilder
             }//ending nested if condition statement
         }//ending if else condition statement
         ArrayList<Node> children = aRootNode.getChildren();
-        for (int i = children.size() - 1; i >= 0; --i)
+        for (int i = 0; i < children.size(); i++)
             run(sRootNode, children.get(i));
     }//Ending run function 
 
