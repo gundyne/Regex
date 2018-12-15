@@ -41,13 +41,16 @@ public class ASTConverter
                 switch (nodeParadigm) 
                 {
                     case "Pgm":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(3);
+                        break;
+                    case "Main":
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "BBlock":
                     	hoistOp = fix2(bankOfChildren);
                         break;
                     case "Vargroup":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "PPvarlist":
                     	hoistOp = fix3(bankOfChildren);
@@ -56,7 +59,7 @@ public class ASTConverter
                     	hoistOp = fix4(bankOfChildren);
                         break;
                     case "Vardecl":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Basekind":
                     	hoistOp = fix0(bankOfChildren);
@@ -65,16 +68,16 @@ public class ASTConverter
                     	hoistOp = fix0(bankOfChildren);
                         break;
                     case "Stmts":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Stmt":
                     	hoistOp = fix0(bankOfChildren);
                         break;
                     case "Stasgn":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Stprint":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Stwhile":
                     	hoistOp = fix4(bankOfChildren);
@@ -86,16 +89,16 @@ public class ASTConverter
                     	hoistOp = fix4(bankOfChildren);
                         break;
                     case "Exprlist":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Moreexprs":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "S":
                     	hoistOp = fix4(bankOfChildren);
                         break;
                     case "Expr":
-                    	hoistOp = fix1(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "R":
                     	hoistOp = fix4(bankOfChildren);
@@ -106,8 +109,16 @@ public class ASTConverter
                     case "Q":
                     	hoistOp = fix4(bankOfChildren);
                         break;
+                    case "Rterm_rec":
+                    	hoistOp = bankOfChildren.remove(0);
+                        System.out.println(hoistOp);
+                        integrate = true;
+                        break;
+                    case "Term_rec":
+                    	hoistOp = bankOfChildren.remove(0);
+                        break;
                     case "Term":
-                    	hoistOp = fix0(bankOfChildren);
+                    	hoistOp = bankOfChildren.remove(0);
                     	integrate = true;
                         break;
                     default:

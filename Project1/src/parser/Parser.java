@@ -10,9 +10,12 @@ import lexer.Token;
 import lexer.Tokenizer;
 import parser.pst.Node;
 import parser.pst.ASTConverter;
+import runner.sct.SCTBuilder;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import runner.ASTRunner;
+import runner.sct.SCTNode;
 
 public class Parser
 {
@@ -24,8 +27,21 @@ public class Parser
     
     public static void main(String args[]) 
     {
-        Node astRoot = getASTRoot(true,args[0]);
+        //Node astRoot = getASTRoot(false,args[0]);
+        Node astRoot = new Node("brace1");
+        Node line1 = new Node("equal");
+        Node meth = new Node("plus");
+        Node val1 = new Node("id","test");
+        Node val2 = new Node("int","100");
+        Node val3 = new Node("int","500");
+        astRoot.addChild(line1);
+        line1.addChild(val1);
+        line1.addChild(meth);
+        meth.addChild(val2);
+        meth.addChild(val3);
         printTree(astRoot, 0);
+        ASTRunner astRun = new ASTRunner(astRoot);
+        astRun.run();
     }//ending main method
 
     public static Node getASTRoot(boolean printThisPST,String location) 

@@ -12,6 +12,7 @@ import runner.sct.SCTBuilder;
 import runner.sct.SCTNode;
 
 import java.util.ArrayList;
+import runner.sct.TableEntry;
 
 public class ASTRunner extends SCTBuilder 
 {
@@ -23,13 +24,14 @@ public class ASTRunner extends SCTBuilder
     public ASTRunner(Node aRootNode)
     {
         this.astRoot = aRootNode;
-        sctRoot = buildScopeTree(aRootNode);
+        this.sctRoot = buildScopeTree(aRootNode);
     }//Ending overloaded constructor 
 
    //run function for use 
     public void run() 
     {
         run(sctRoot, astRoot);
+        printScopeTree();
     }//Ending run function
 
    
@@ -48,8 +50,11 @@ public class ASTRunner extends SCTBuilder
         {
            
          // Observe case that may find the entry and update 
-            double value = Operations.doOperation(sRootNode, aRootNode.getChildren().get(0));
-            sRootNode.findAndUpdateEntry(aRootNode.getChildren().get(1), value + "");
+            double value = Operations.doOperation(sRootNode, aRootNode.getChildren().get(1));
+            if(sRootNode.findEntry(aRootNode).equals(""))
+                sRootNode.addSymbol(new TableEntry(sRootNode,aRootNode));
+            else
+                sRootNode.findAndUpdateEntry(aRootNode.getChildren().get(0), value + "");
         } else 
         {
             if (isPrint(aRootNode))
@@ -75,8 +80,8 @@ public class ASTRunner extends SCTBuilder
 
     private void handlePrint(SCTNode sNode, Node aRootNode)
     {
-        ArrayList<Node> children = aRootNode.getChildren().get(0).getChildren();
-        Node nodeToPrint = children.get(1);
+        ArrayList<Node> children = aRootNode.getChildren();
+        Node nodeToPrint = children.get(0);
         System.out.print(nodeToPrint.getValue().replaceAll("^\"|\"$", ""));
         printArgs(sNode, nodeToPrint);
         System.out.println(""); 
@@ -150,7 +155,7 @@ public class ASTRunner extends SCTBuilder
     }//ending printScopeTree method
 
     //Pre order print: recursive
-    private void printTree(SCTNode rootNode, int currentLevel) 
+    public static void printTree(SCTNode rootNode, int currentLevel) 
     {
         if (rootNode == null)
             return;
@@ -165,7 +170,7 @@ public class ASTRunner extends SCTBuilder
             printTree(child, currentLevel);
         }//ending for loop statement
     }//ending printTree function
-    private String getSpacing(int currentLevel)
+    private static String getSpacing(int currentLevel)
     {
         String data = "";
         for (int i = 0; i < currentLevel; i++)

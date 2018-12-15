@@ -26,17 +26,17 @@ public class TableEntry
         this.astNode = aNode;
         
         ArrayList<Node> children = aNode.getChildren();
-        this.type = children.get(0).getKeyword();
+        this.type = children.get(1).getKeyword();
 
         if (this.type.equals("id")) 
         {
             this.value = sNode.findEntry(aNode);
         } else 
         {
-            this.value = children.get(0).getValue();
+            this.value = children.get(1).getValue();
         }//Ending if else condition statement
 
-        this.id = children.get(1).getValue();
+        this.id = children.get(0).getValue();
     }//Ending Table Entry overloaded constructor
 
     //Getters and Setter declerations 

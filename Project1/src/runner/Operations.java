@@ -20,9 +20,9 @@ public class Operations
 	    if (aNode == null)
 	        return false;
 	    //Ending if condition statement
-		String keyword = aNode.getKeyword();
+            String keyword = aNode.getKeyword();
 
-		return keyword.equals("slash") ||
+            return keyword.equals("slash") ||
 				keyword.equals("aster") ||
 				keyword.equals("minus") ||
 				keyword.equals("caret") ||
@@ -58,11 +58,11 @@ public class Operations
         if (aNode.getKeyword().equals("parens1"))
         	aNode = aNode.getChildren().get(1);
 
-		if (!isOperation(aNode))
-			return 0;
+	if (!isOperation(aNode))
+		return 0;
 
-		String keyword = aNode.getKeyword();
-		ArrayList<Node> bankOfChildren = aNode.getChildren();
+	String keyword = aNode.getKeyword();
+	ArrayList<Node> bankOfChildren = aNode.getChildren();
         double returnValue = 0;
 
         switch(keyword) 

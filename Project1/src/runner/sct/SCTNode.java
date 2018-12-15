@@ -25,8 +25,9 @@ public class SCTNode
 
     public SCTNode(SCTNode sNode)
     {
-        this();
-        setParent(sNode);
+        this.children = new ArrayList<>();
+        this.symbolTable = new HashSet<>();
+        this.parent = sNode;
         sNode.addChild(this);
     }//Ending copy constructor
     
@@ -103,7 +104,9 @@ public class SCTNode
         if (this.parent != null)
             return this.parent.findAndUpdateEntry(aNode, data);
         else
+        {
             return false;
+        }
         //Ending if else statement 
     }//ending  find and update entry function
 
