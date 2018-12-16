@@ -97,10 +97,13 @@ public class ASTRunner extends SCTBuilder
     private void handlePrint(SCTNode sNode, Node aRootNode)
     {
         ArrayList<Node> children = aRootNode.getChildren();
-        Node nodeToPrint = children.get(0);
+        for(Node nodeToPrint: children)
+        {
+        //Node nodeToPrint = children.get(0);
         System.out.print(nodeToPrint.getValue().replaceAll("^\"|\"$", ""));
         printArgs(sNode, nodeToPrint);
         System.out.println(""); 
+        }
     }
     
     /**

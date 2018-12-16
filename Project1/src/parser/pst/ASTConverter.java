@@ -54,7 +54,7 @@ public class ASTConverter
                     	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "PPvarlist":
-                        bankOfChildren.remove(0);
+                        //bankOfChildren.remove(0);
                     	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Varlist":
@@ -80,12 +80,15 @@ public class ASTConverter
                         break;
                     case "Stprint":
                     	hoistOp = bankOfChildren.remove(1);
+                        pNode.addChildren(hoistOp.getChildren());
                         break;
                     case "Stwhile":
                     	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "PPexprs":
-                    	hoistOp = bankOfChildren.remove(0);
+                    	hoistOp = bankOfChildren.remove(1);
+                        bankOfChildren.remove(0);
+                        bankOfChildren.remove(0);
                         break;
                     case "PPexpr1":
                     	hoistOp = bankOfChildren.remove(2);
@@ -106,21 +109,13 @@ public class ASTConverter
                     	hoistOp = bankOfChildren.remove(2);
                         break;
                     case "Rterm":
-                    	hoistOp = bankOfChildren.remove(0);
+                    	hoistOp = bankOfChildren.remove(1);
                         break;
                     case "Q":
                     	hoistOp = bankOfChildren.remove(2);
                         break;
-                    case "Rterm_rec":
-                    	hoistOp = bankOfChildren.remove(0);
-                        System.out.println(hoistOp);
-                        integrate = true;
-                        break;
-                    case "Term_rec":
-                    	hoistOp = bankOfChildren.remove(0);
-                        break;
                     case "Term":
-                    	hoistOp = bankOfChildren.remove(0);
+                    	hoistOp = bankOfChildren.remove(1);
                     	integrate = true;
                         break;
                     default:
