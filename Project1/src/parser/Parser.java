@@ -28,8 +28,8 @@ public class Parser
     
     public static void main(String args[]) 
     {
-        Node astRoot = getASTRoot(true,args[0]);
-        /*
+        //Node astRoot = getASTRoot(true,args[0]);
+        
         Node astRoot = new Node("kwdprog");
         Node main = new Node("kwdmain");
         Node block = new Node("brace1");
@@ -51,7 +51,7 @@ public class Parser
         meth.addChild(val3);
         line2.addChild(val4);
         line2.addChild(val5);
-        */
+        
         printTree(astRoot, 0);
         
         System.out.println("\n");
